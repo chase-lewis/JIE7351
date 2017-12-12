@@ -1,17 +1,39 @@
-Confluent
----------
+JD7351
+------
 
-Confluent offers a real-time data platform built around Apache Kafka.
+Setting up the mssql server
+First, make sure windows firewalls are allowing port 1433.
+Below is a link to configure the server for remote connection. 
+https://knowledgebase.apexsql.com/configure-remote-access-connect-remote-sql-server-instance-apexsql-tools/
 
-Apache Kafka, an open source technology created by the founders of Confluent,
-acts as a real-time, fault tolerant, highly scalable messaging system. It is
-widely adopted for use cases ranging from collecting user activity data, logs,
-application metrics, stock ticker data, and device instrumentation. Its key
-strength is its ability to make high volume data available as a real-time stream
-for consumption in systems with very different requirements—from batch systems
-like Hadoop, to realtime systems that require low-latency access, to stream
-processing engines that transform the data streams as they arrive.
+Setting up confluent
+https://docs.confluent.io/current/quickstart.html
 
-This infrastructure lets you build around a single central nervous system
-transmitting messages to all the different systems and applications within your
-company.
+In order to connect to a new database, we have to modify the connection properties under kafka-connect-jdbc. Create a new properties file or copy one of the existing files. The lines that need to be modified are
+Connection.url - this is a connection string for the mssql database. An example string is
+ 
+jdbc:sqlserver://128.61.25.51:1433;DatabaseName=NBS_ODSE;user=test;password=test;
+
+Query - the SQL query
+Mode - the mode to query through
+Topic.prefix - the topic name for the kafka instance
+
+In order to run the standalone connection, do not run the entire confluent platform, but run just the schema-registry-start script with the command confluent start schema-registry
+, which will start up zookeeper, kafka, and the schema-registry only. 
+
+After it starts, run the commands for publisher and subscriber, changing the topic for subscriber to the topic specified in the properties file. Change publisher command to point to the new properties file you created. 
+
+Publisher:
+bin/connect-standalone ./etc/schema-registry/connect-avro-standalone.properties ./etc/kafka-connect-jdbc/NBnS.properties
+
+Subscriber:
+sudo ./bin/kafka-avro-console-consumer --new-consumer --bootstrap-server localhost:9092 --topic test-sql-jdbc- --from-beginning
+
+Config:
+name=test-source-sql-jdbc-autoincrement
+connector.class=io.confluent.connect.jdbc.JdbcSourceConnector
+tasks.max=1
+connection.url=jdbc:sqlserver://128.61.25.51:1433;DatabaseName=NBS_ODSE;user=test;password=test;
+query=SELECT * FROM Person
+mode=bulk
+topic.prefix=test-sql-jdbc-
