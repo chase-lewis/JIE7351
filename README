@@ -27,7 +27,7 @@ Publisher:
 bin/connect-standalone ./etc/schema-registry/connect-avro-standalone.properties ./etc/kafka-connect-jdbc/NBnS.properties
 
 Subscriber:
-sudo ./bin/kafka-avro-console-consumer --new-consumer --bootstrap-server localhost:9092 --topic test-sql-jdbc- --from-beginning
+bin/kafka-avro-console-consumer --new-consumer --bootstrap-server localhost:9092 --topic test-sql-jdbc- --from-beginning
 
 Config:
 name=test-source-sql-jdbc-autoincrement
@@ -37,3 +37,38 @@ connection.url=jdbc:sqlserver://128.61.25.51:1433;DatabaseName=NBS_ODSE;user=tes
 query=SELECT * FROM Person
 mode=bulk
 topic.prefix=test-sql-jdbc-
+
+
+--- WINDOWS CONFLUENT CONFIGUREATION ---
+
+Docker: 
+1. Install docker following the docs on their website - https://www.docker.com/get-docker
+2. Clone repository
+3. Move into appropriate directory:
+'cd cp-docker-images/examples/kafka-single-node'
+4. Create docker machine and connect to terminal
+'docker-machine create --driver virtualbox --virtualbox-memory 6000 confluent
+eval $(docker-machine env confluent)'
+5. Start zookeeper, kafka, and schema registry
+'docker run -d \
+    --net=host \
+    --name=zookeeper \
+    -e ZOOKEEPER_CLIENT_PORT=32181 \
+    -e ZOOKEEPER_TICK_TIME=2000 \
+    confluentinc/cp-zookeeper:4.0.0
+
+docker run -d \
+    --net=host \
+    --name=kafka \
+    -e KAFKA_ZOOKEEPER_CONNECT=localhost:32181 \
+    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:29092 \
+    -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+    confluentinc/cp-kafka:4.0.0
+    
+ docker run -d \
+  --net=host \
+  --name=schema-registry \
+  -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=localhost:32181 \
+  -e SCHEMA_REGISTRY_HOST_NAME=localhost \
+  -e SCHEMA_REGISTRY_LISTENERS=http://localhost:8081 \
+  confluentinc/cp-schema-registry:4.0.0'
