@@ -1,9 +1,9 @@
-JD7351
+JIE7351
 ------
 
 Setting up the mssql server
 First, make sure windows firewalls are allowing port 1433.
-Below is a link to configure the server for remote connection. 
+Below is a link to configure the server for remote connection.
 https://knowledgebase.apexsql.com/configure-remote-access-connect-remote-sql-server-instance-apexsql-tools/
 
 Setting up confluent
@@ -11,7 +11,7 @@ https://docs.confluent.io/current/quickstart.html
 
 In order to connect to a new database, we have to modify the connection properties under kafka-connect-jdbc. Create a new properties file or copy one of the existing files. The lines that need to be modified are
 Connection.url - this is a connection string for the mssql database. An example string is
- 
+
 jdbc:sqlserver://128.61.25.51:1433;DatabaseName=NBS_ODSE;user=test;password=test;
 
 Query - the SQL query
@@ -19,9 +19,9 @@ Mode - the mode to query through
 Topic.prefix - the topic name for the kafka instance
 
 In order to run the standalone connection, do not run the entire confluent platform, but run just the schema-registry-start script with the command confluent start schema-registry
-, which will start up zookeeper, kafka, and the schema-registry only. 
+, which will start up zookeeper, kafka, and the schema-registry only.
 
-After it starts, run the commands for publisher and subscriber, changing the topic for subscriber to the topic specified in the properties file. Change publisher command to point to the new properties file you created. 
+After it starts, run the commands for publisher and subscriber, changing the topic for subscriber to the topic specified in the properties file. Change publisher command to point to the new properties file you created.
 
 Publisher:
 bin/connect-standalone ./etc/schema-registry/connect-avro-standalone.properties ./etc/kafka-connect-jdbc/NBnS.properties
