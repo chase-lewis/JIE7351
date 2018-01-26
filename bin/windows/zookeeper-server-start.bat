@@ -6,7 +6,6 @@ rem The ASF licenses this file to You under the Apache License, Version 2.0
 rem (the "License"); you may not use this file except in compliance with
 rem the License.  You may obtain a copy of the License at
 rem
-rem     http://www.apache.org/licenses/LICENSE-2.0
 rem
 rem Unless required by applicable law or agreed to in writing, software
 rem distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,10 +20,10 @@ IF [%1] EQU [] (
 
 SetLocal
 IF ["%KAFKA_LOG4J_OPTS%"] EQU [""] (
-    if exists %~dp0../../etc/kafka/log4j.properties (
-        set KAFKA_LOG4J_OPTS=-Dlog4j.configuration=file:%~dp0../../etc/kafka/log4j.properties
+    if exist %~dp0..\..\etc\kafka\log4j.properties (
+        set KAFKA_LOG4J_OPTS=-Dlog4j.configuration=file:%~dp0..\..\etc\kafka\log4j.properties
     ) else (
-        set KAFKA_LOG4J_OPTS=-Dlog4j.configuration=file:%~dp0../../config/log4j.properties
+        set KAFKA_LOG4J_OPTS=-Dlog4j.configuration=file:%~dp0..\..\config\log4j.properties
     )
 )
 IF ["%KAFKA_HEAP_OPTS%"] EQU [""] (
