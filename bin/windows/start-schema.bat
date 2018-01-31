@@ -1,0 +1,1 @@
+schema-registry-start.bat ..\..\etc\schema-registry\schema-registry.properties

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.CountDownLatch;
+import java.sql.ResultSet;
 
 public class KafkaProducerTest implements Runnable {
   private final KafkaProducer<String, String> producer;
@@ -15,13 +16,18 @@ public class KafkaProducerTest implements Runnable {
   }
 
   public void run() {
-    for (int i = 0; i < 100; i++) {
-      // sql = "UPDATE NBS_ODSE.dbo.Person SET add_reason_cd='YES IT WORKS 2', add_time=GETDATE() WHERE person_uid='10000001'";
-      String sql = "SELECT person_uid, add_reason_cd FROM NBS_ODSE.dbo.Person";
-      connector.query(sql);
-      System.out.println(connector.getResults());
-      producer.send(new ProducerRecord<String, String>("test1", Integer.toString(i), Integer.toString(i)));
-      System.out.println("Sending " + i);
+    // sql = "UPDATE NBS_ODSE.dbo.Person SET add_reason_cd='YES IT WORKS 2', add_time=GETDATE() WHERE person_uid='10000001'";
+    String sql = "SELECT person_uid, add_reason_cd FROM NBS_ODSE.dbo.Person";
+    connector.query(sql);
+    ResultSet result = connector.getResults();
+    try {
+      while (result.next()) {
+        String result_str = result.getInt(1) + " " + result.getString(2);
+        System.out.println(result_str);
+        producer.send(new ProducerRecord<String, String>("test1", Integer.toString(0), result_str));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
     producer.close();
   }
