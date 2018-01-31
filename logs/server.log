@@ -1261,3 +1261,4 @@ java.nio.file.FileSystemException: \tmp\kafka-logs\text.test-0\00000000000000000
 [2018-01-31 15:28:17,241] INFO [GroupCoordinator 0]: Group foo with generation 4 is now empty (__consumer_offsets-24) (kafka.coordinator.group.GroupCoordinator)
 [2018-01-31 15:34:54,213] INFO [Group Metadata Manager on Broker 0]: Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
 [2018-01-31 15:44:54,214] INFO [Group Metadata Manager on Broker 0]: Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
+[2018-01-31 15:54:54,226] INFO [Group Metadata Manager on Broker 0]: Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
