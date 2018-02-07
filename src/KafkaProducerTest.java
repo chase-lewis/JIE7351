@@ -30,8 +30,8 @@ public class KafkaProducerTest implements Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            producer.close();
         }
+        producer.close();
     }
 
     public static void main(String [] args) {
