@@ -1,0 +1,9 @@
+SELECT * FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, NULL) AS C;
+
+UPDATE NBS_ODSE.dbo.Person
+SET add_reason_cd='yes change tracking', add_time=GETDATE()
+WHERE person_uid=10000001
+
+ALTER TABLE NBS_ODSE.dbo.Person
+ENABLE CHANGE_TRACKING
+WITH (TRACK_COLUMNS_UPDATED = ON)
