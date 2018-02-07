@@ -5,31 +5,58 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.CountDownLatch;
 import java.sql.ResultSet;
+import java.lang.Runtime;
 
 public class KafkaProducerTest implements Runnable {
     private final KafkaProducer<String, String> producer;
     private final DBConnectorTest connector;
+    private int last_version;
 
     public KafkaProducerTest(Properties config, String ip) {
         this.producer = new KafkaProducer<>(config);
         this.connector = new DBConnectorTest(ip);
+        //Doesn't work yet, will work on it later
+        /*Runtime.getRuntime.addShutdownHook(new Thread(){
+            public void run() {
+                try {
+                    Thread.sleep(200);
+                    producer.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });*/
     }
 
     public void run() {
-    // String sql = "SELECT person_uid, add_reason_cd FROM NBS_ODSE.dbo.Person";
-        while (true) {
-            String sql = "SELECT * FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, NULL) AS C";
+        try {
+            //Set up initial refresh query. We should add configs for this at a later point
+            String sql = "SELECT person_uid, add_reason_cd FROM NBS_ODSE.dbo.Person";
             connector.query(sql);
             ResultSet result = connector.getResults();
-            try {
-                while (result.next()) {
-                    String result_str = result.getInt(1) + " " + result.getString(3) + " " + result.getString(6);
-                    System.out.println(result_str);
-                    producer.send(new ProducerRecord<String, String>("test1", Integer.toString(0), result_str));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            //Parse results from intial query
+            while (result.next()) {
+                String row = String.format("%d %s", result.getInt(1), result.getString(2));
+                System.out.println(row);
+                producer.send(new ProducerRecord<String, String>("test1", "I", row));
             }
+            //Monitor loop
+            while (true) {
+                //Set up monitor query
+                sql = String.format("SELECT SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, person_uid 
+                    FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, %d) AS C", last_version);
+                connector.query(sql);
+                result = connector.getResults();
+                //Parse results from monitor query
+                while (result.next()) {
+                    last_version = result.getInt(1);
+                    String op = result.getString(2);
+                    String person_uid = result.getString(3);
+                    producer.send(new ProducerRecord<String, String>("test1", op, person_uid));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         producer.close();
     }
@@ -48,4 +75,5 @@ public class KafkaProducerTest implements Runnable {
         KafkaProducerTest test = new KafkaProducerTest(config, args[0]);
         test.run();
     }
+
 }
