@@ -10,9 +10,9 @@ public class KafkaProducerTest implements Runnable {
   private final KafkaProducer<String, String> producer;
   private final DBConnectorTest connector;
 
-  public KafkaProducerTest(Properties config) {
+  public KafkaProducerTest(Properties config, String ip) {
     this.producer = new KafkaProducer<>(config);
-    this.connector = new DBConnectorTest();
+    this.connector = new DBConnectorTest(ip);
   }
 
   public void run() {
@@ -43,7 +43,7 @@ public class KafkaProducerTest implements Runnable {
     config.put("key.serializer","org.apache.kafka.common.serialization.StringSerializer");
     config.put("value.serializer","org.apache.kafka.common.serialization.StringSerializer");
 
-    KafkaProducerTest test = new KafkaProducerTest(config);
+    KafkaProducerTest test = new KafkaProducerTest(config, args[0]);
     test.run();
   }
 }

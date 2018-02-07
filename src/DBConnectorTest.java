@@ -1,15 +1,17 @@
 import java.sql.*;
 
 public class DBConnectorTest {
-	private String connectionUrl = "jdbc:sqlserver://128.61.28.226:1433;DatabaseName=NBS_ODSE;user=test;password=test;";
+	//private String ip = "128.61.18.34";
+	private String connectionUrl[] = {"jdbc:sqlserver://", ":1433;DatabaseName=NBS_ODSE;user=test;password=test;"};
 	private ResultSet results;
 	private Connection connection;
 
-	public DBConnectorTest() {
+	public DBConnectorTest(String ip) {
 		// Load SQL Server JDBC driver and establish connection.
 		try{
-			System.out.print("Connecting to SQL Server ... ");
-			connection = DriverManager.getConnection(connectionUrl);
+			String url = connectionUrl[0] + ip + connectionUrl[1];
+			System.out.print("Connecting to SQL Server url " + ip + " ... ");
+			connection = DriverManager.getConnection(url);
 			System.out.println("Connected.");
 		} catch (Exception e) {
 			e.printStackTrace();
