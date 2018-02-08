@@ -43,8 +43,7 @@ public class KafkaProducerTest implements Runnable {
             //Monitor loop
             while (true) {
                 //Set up monitor query
-                sql = String.format("SELECT SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, person_uid 
-                    FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, %d) AS C", last_version);
+                sql = String.format("SELECT SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, person_uid FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, %d) AS C", last_version);
                 connector.query(sql);
                 result = connector.getResults();
                 //Parse results from monitor query
@@ -54,6 +53,7 @@ public class KafkaProducerTest implements Runnable {
                     String person_uid = result.getString(3);
                     producer.send(new ProducerRecord<String, String>("test1", op, person_uid));
                 }
+                Thread.sleep(1000);
             }
         } catch (Exception e) {
             e.printStackTrace();
