@@ -31,19 +31,23 @@ public class KafkaProducerTest implements Runnable {
     public void run() {
         try {
             //Set up initial refresh query. We should add configs for this at a later point
-            String sql = "SELECT person_uid, add_reason_cd FROM NBS_ODSE.dbo.Person";
+            //String sql = "SELECT person_uid, add_reason_cd FROM NBS_ODSE.dbo.Person";
+            String sql = "SELECT * FROM NBS_ODSE.dbo.Entity";
             connector.query(sql);
             ResultSet result = connector.getResults();
             //Parse results from intial query
+            /*
             while (result.next()) {
                 String row = String.format("%d %s", result.getInt(1), result.getString(2));
                 System.out.println(row);
                 producer.send(new ProducerRecord<String, String>("test1", "I", row));
             }
+            */
             //Monitor loop
             while (true) {
                 //Set up monitor query
-                sql = String.format("SELECT SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, person_uid FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, %d) AS C", last_version);
+                //sql = String.format("SELECT SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, person_uid FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, %d) AS C", last_version);
+                sql = String.format("SELECT SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, entity_uid FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Entity, %d) AS C", last_version);
                 connector.query(sql);
                 result = connector.getResults();
                 //Parse results from monitor query
@@ -51,7 +55,15 @@ public class KafkaProducerTest implements Runnable {
                     last_version = result.getInt(1);
                     String op = result.getString(2);
                     String person_uid = result.getString(3);
-                    producer.send(new ProducerRecord<String, String>("test1", op, person_uid));
+                    
+                    sql = String.format("SELECT * FROM NBS_ODSE.dbo.Entity WHERE entity_uid=%s", person_uid);
+                    connector.query(sql);
+                    ResultSet result2 = connector.getResults();
+
+                    while (result2.next()) {
+
+                        producer.send(new ProducerRecord<String, String>("test1", op, String.format("%s %s", result2.getString(1), result2.getString(2))));
+                    }
                 }
                 Thread.sleep(1000);
             }
