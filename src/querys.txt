@@ -7,3 +7,17 @@ WHERE person_uid=10000001
 ALTER TABLE NBS_ODSE.dbo.Person
 ENABLE CHANGE_TRACKING
 WITH (TRACK_COLUMNS_UPDATED = ON)
+
+# Queries for Entity Table #
+############################
+
+INSERT INTO NBS_ODSE.dbo.Entity (entity_uid, class_cd)
+VALUES (10000002, 'PSN')
+
+UPDATE NBS_ODSE.dbo.Entity
+SET class_cd = 'TEST'
+WHERE entity_uid = 10000002
+
+DELETE FROM NBS_ODSE.dbo.Entity
+WHERE entity_uid = '10000003'
+
