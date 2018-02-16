@@ -36,13 +36,13 @@ public class KafkaProducerTest implements Runnable {
             connector.query(sql);
             ResultSet result = connector.getResults();
             //Parse results from intial query
-            /*
+            
             while (result.next()) {
                 String row = String.format("%d %s", result.getInt(1), result.getString(2));
                 System.out.println(row);
                 producer.send(new ProducerRecord<String, String>("test1", "I", row));
             }
-            */
+            
             //Monitor loop
             while (true) {
                 //Set up monitor query
@@ -59,7 +59,6 @@ public class KafkaProducerTest implements Runnable {
                     sql = String.format("SELECT * FROM NBS_ODSE.dbo.Entity WHERE entity_uid=%s", person_uid);
                     connector.query(sql);
                     ResultSet result2 = connector.getResults();
-
                     while (result2.next()) {
 
                         producer.send(new ProducerRecord<String, String>("test1", op, String.format("%s %s", result2.getString(1), result2.getString(2))));
