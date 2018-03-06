@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DBConnectorTest {
 	//private String ip = "128.61.18.34";
-	private String connectionUrl[] = {"jdbc:sqlserver://", ":1433;DatabaseName=NBS_ODSE;user=test;password=test;"};
+	private String connectionUrl[] = {"jdbc:sqlserver://", ":1433;DatabaseName=NBS_ODSE;user=sa;password=Nedss$GTRI;"};
 	private ResultSet results;
 	private Connection connection;
 

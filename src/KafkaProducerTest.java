@@ -13,6 +13,7 @@ public class KafkaProducerTest implements Runnable {
     private int last_version;
 
     public KafkaProducerTest(Properties config, String ip) {
+        //this.producer = null; 
         this.producer = new KafkaProducer<>(config);
         this.connector = new DBConnectorTest(ip);
         //Doesn't work yet, will work on it later
@@ -42,10 +43,11 @@ public class KafkaProducerTest implements Runnable {
                 System.out.println(row);
                 producer.send(new ProducerRecord<String, String>("test1", "I", row));
             }
+
             
             //Monitor loop
             while (true) {
-                //Set up monitor query
+                //TODO We need to change the below query to selecting based on last_chg_time
                 //sql = String.format("SELECT SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, person_uid FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, %d) AS C", last_version);
                 sql = String.format("SELECT SYS_CHANGE_VERSION, SYS_CHANGE_OPERATION, entity_uid FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Entity, %d) AS C", last_version);
                 connector.query(sql);
