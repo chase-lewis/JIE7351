@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+
+    <!-- Checkstyle 6.19 doesn't like properly-formatted annotations -->
+    <suppress files="(KsqlEntity|Cli|Ksql|AbstractCliCommands|CommandStore).java" checks="IndentationCheck"/>
+
+    <!-- can't work out how to resolve the issue with the do {..} while -->
+    <suppress files="CommandStore.java" checks="RightCurly"/>
+
+    <!-- Suppress some checks on all files -->
+    <suppress files="." checks="ExplicitInitializationCheck"/>
+    <suppress files="." checks="FinalClassCheck"/>
+    <suppress files="." checks="AbbreviationAsWordInName"/>
+    <suppress files="." checks="WhitespaceAround"/>
+    <suppress files="." checks="AvoidEscapedUnicodeCharacters"/>
+
+    <!-- Semantics may not be well checked by rules -->
+    <suppress files="." checks="ParameterNumber"/>
+    <suppress files="." checks="BooleanExpressionComplexityCheck"/>
+    <suppress files="." checks="NPathComplexity"/>
+    <suppress files="." checks="JavaNCSSCheck"/>
+    <suppress files="." checks="ClassDataAbstractionCouplingCheck"/>
+    <suppress files="." checks="CyclomaticComplexityCheck"/>
+
+    <!-- These checks may be included in the future -->
+    <suppress files="." checks="OverloadMethodsDeclarationOrder"/>
+    <suppress files="." checks="EmptyLineSeparator"/>
+
+</suppressions>
