@@ -21,3 +21,7 @@ WHERE entity_uid = 10000002
 DELETE FROM NBS_ODSE.dbo.Entity
 WHERE entity_uid = '10000003'
 
+UPDATE NBS_ODSE.dbo.Person
+SET add_reason_cd = 'Testing properties', add_time = GETDATE()
+WHERE person_uid = 10000001
+

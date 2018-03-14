@@ -53,12 +53,12 @@ public class KafkaConsumerTest implements Runnable {
   public static void main(String [] args) {
     Properties config = new Properties();
     config.put("bootstrap.servers", "localhost:9092");
-    config.put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");  
+    config.put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
     config.put("value.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
     config.put("group.id", "foo");
 
     ArrayList<String> alist = new ArrayList<>();
-    alist.add("test1");
+    alist.add("sql-jdbc-demo-");
 
     KafkaConsumerTest test = new KafkaConsumerTest(config, alist);
     test.run();

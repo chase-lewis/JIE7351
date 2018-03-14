@@ -8,7 +8,7 @@ popd
 
 set JAVA_BASE_DIR=%BASE_DIR%/../share/java
 echo %JAVA_BASE_DIR%
-for %%i in (confluent-common, kafka-serde-tools, monitoring-interceptors) do (
+for %%i in (kafka, kafka-connect-jdbc, confluent-common, kafka-serde-tools, monitoring-interceptors) do (
  echo %%i
  call :concat %JAVA_BASE_DIR%/%%i/*
 )

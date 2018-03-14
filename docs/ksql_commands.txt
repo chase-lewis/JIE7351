@@ -1,0 +1,1 @@
+CREATE STREAM sql-jdbc-demo-original (viewtime bigint, person_uid bigint add_reason_cd varchar, add_user_id bigint, addtime bigint) WITH (kafka_topic='pageviews', value_format='DELIMITED');
