@@ -1,1 +1,1 @@
-..\bin\windows\connect-standalone.bat ..\etc\kafka\connect-standalone.properties ..\etc\kafka-connect-jdbc\NBS.properties
+..\bin\windows\connect-standalone.bat ..\etc\kafka\connect-standalone.properties ..\etc\cdc_properties\NBS.properties
