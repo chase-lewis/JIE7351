@@ -3,11 +3,11 @@ h1 Team Minutes for Team 7351
 h2 Team Members’ Names
 
 {table}
-Name | Email 
+Name | Email
 Noah Harper    | nharper32@gatech.edu
 Chase Lewis     | chaselewis@gatech.edu
 Zhijian Li     | zhijianli@gatech.edu
-Bruce Yang     | byang77@gatech.edu 
+Bruce Yang     | byang77@gatech.edu
 Christopher Polack     | cfpolack@gatech.edu
 {table}
 
@@ -46,7 +46,7 @@ h2 Meeting 3
 Meeting Date: | January 24, 2018
 Start Time: 2:00pm | End Time: 3:00pm
 Attendance  | All team members present
-Purpose of Meeting | We added an additional meeting before our next scheduled meeting on Friday in order to set action items for our first sprint. 
+Purpose of Meeting | We added an additional meeting before our next scheduled meeting on Friday in order to set action items for our first sprint.
 Discuss work completed since last meeting | We completed the client charter, team charter, and updated our t-square page. We met with our instructors to speak about the potential issues we may run into with a project that does not have a UI component. We also verified that our user stories were detailed enough and due to the fact that they are large and difficult to break down, we decided to build specific technical action items for each user story.
 Summarize work completed during meeting |  During the meeting, we first finished setting up our github page so that Zenhub would be correctly configured. We added milestones for each sprint and configured some labels and epics to track our future work. We began adding several initial tasks for our project and set some preliminary estimates for time required to complete them. We decided to set all of our tasks and assignments as issues on the github so that we can track all work completed, including documentation and minutes. We will break our user stories down into specific technical tasks, rather than new user stories, so that we can better track our work as the sprint progresses.
 Review action items to be completed after meeting | Our next main task in Sprint 1 is to reconfigure Kafka and Confluent so they run on Windows, the platform our client specified. We have already set aside multiple work times for our team so that we can make progress on these tasks. We will also get our client charter signed by our client and upload it to our team page.
@@ -59,7 +59,7 @@ h2 Meeting 4
 Meeting Date: | January 31, 2018
 Start Time: 2:00pm | End Time: 3:00pm
 Attendance  | All team members present
-Purpose of Meeting | The purpose of this meeting was to continue working on action items that will allow us to transition to Sprint 2. 
+Purpose of Meeting | The purpose of this meeting was to continue working on action items that will allow us to transition to Sprint 2.
 Discuss work completed since last meeting | Since the last meeting, we met with our client at his office and were able to get our client charter approved and signed. In class,we completed an retrospective in which our team discussed current good habits, habits that are weighing us down, potential problems we see in the future, and goals we can keep in mind in order to avoid these potential problems. Our issues related mainly to the fact that as we transition from prototyping to implementation, our workload will need to increase significantly this semester. Finally, we completed all of our action items for Sprint 1, which included transferring our work for our prototype onto a windows machine and connecting it to our database.
 Summarize work completed during meeting | During this meeting, we quickly debriefed after our retrospective earlier that day. We discussed our results further and began working on the memo assignment. We decided to focus on the issue of a lack of time dedication and potential underestimation of our project. As we have progressed through this project, we have discovered that the complexity of specific tasks is significantly higher than we initially estimated. We have already planned to set aside longer permanent meeting times during the week and have scheduled work meetings on weekends. Finally, during the meeting we set a meeting to work on our video demo that is due at the end of the upcoming weekend.
 Review action items to be completed after meeting | After this meeting, we need to continue working on creating a visible deliverable for our video demo deadline. Our project is difficult to demo due to the fact that we are handling backend data, so we must plan a video that will clearly demonstrate the features that we have added. We will also begin planning specific action items for Sprint 2, which will involve becoming more familiar with zenhub.
@@ -105,10 +105,49 @@ Meeting Date: | February 21, 2018
 Start Time: 12:20pm | End Time: 1:30pm
 Attendance  | All team members present
 Purpose of Meeting | The purpose of this meeting was to divide up tasks for the Detailed Design draft and discuss other progress that needs to be made on our project this week.
-Discuss work completed since last meeting | Since the last meeting, we met to write a script and record a video demo for sprint 2. 
+Discuss work completed since last meeting | Since the last meeting, we met to write a script and record a video demo for sprint 2.
 Summarize work completed during meeting | During the meeting, we first went through the detailed design document assignment instructions and created a list of the tasks for the paper. We decided to divide the workload based on the section divisions of the paper. As a result, Noah is working on the system architecture section, Bruce on the data storage design section, Chase and Zhijian on the component detailed design section, and Chris on the intro and UI section. While speaking about the assignment we came to the realization that we would have a hard time completing the UI design section because our application does not have any designable user interface. We decided to explain this in the section for now, and can add some supplemental information later if needed. Finally, we began filling out the team collaboration form to keep track of the distribution of work.
 Review action items to be completed after meeting | We scheduled another work day for the detailed design document on Friday but will continue working on our tasks individually so that we only have to make final touches on Friday. We have decided to mutually proofread/revise, so after completing our individual sections we plan to read over each other’s work.
 Schedule next meeting | Friday, February 23
+Recording secretary | Christopher Polack
+{table}
+
+h2 Meeting 8
+{table}
+Meeting Date: | February 25, 2018
+Start Time: 12:20pm | End Time: 1:30pm
+Attendance  | All team members present
+Purpose of Meeting | The purpose of this meeting was to complete our Detailed Design draft due tonight.
+Discuss work completed since last meeting | Since the last meeting, we worked individually on our parts that were assigned during the last meeting. We also continued work for Sprint 3, which is our largest sprint of the project.
+Summarize work completed during meeting | During the meeting, we completed our individual portions and performed a complete read-through of the document. We polished all figures and tables in the document and ensured that the document was legible and organized.
+Review action items to be completed after meeting | By the next meeting, we will work on the second draft of our Detailed Design document. We will also be participating in a skype call with our client this week to answer some questions we have regarding the SAS files and other features we will be able to use in our solution.
+Schedule next meeting | Wednesday, February 28
+Recording secretary | Christopher Polack
+{table}
+
+h2 Meeting 9
+{table}
+Meeting Date: | March 6, 2018
+Start Time: 6:00pm | End Time: 9:00pm
+Attendance  | All team members present
+Purpose of Meeting | The purpose of this meeting was to be an in-depth work meeting for Sprint 3. We knew our tasks that we needed to complete and used this meeting to really work on the tasks.
+Discuss work completed since last meeting | Since the last meeting, we submitted our second draft for our Detailed Design document. This was due at midnight on the 4th of March. Previously, we had performed a peer review of another team's document and received feedback for our own. We incorporated this feedback into our new draft.
+Summarize work completed during meeting | During this meeting, we made significant progress with our project. Several team members worked on really picking apart the SAS scripts and learned all of the syntax for different statements. We learned the difference between SQL procedures and SAS runs, an important part of the project. We will need to migrate the run statements into KSQL, the software we are using inside confluent to run the data transformations. We also began thinking about how we may implement change tracking in our application, because our client has informed us that we will not be able to use the built in MSSQL change tracking feature. Our client is worried about the potential performance issues that this continuous change tracking will create, so we are now focusing on creating an alternative that will not impact speed or space complexity.
+Review action items to be completed after meeting | By the next meeting, we will wrap up our tasks for sprint 3 and close issues on our github to reflect the progress we make in the project.
+Schedule next meeting | Sunday, March 11
+Recording secretary | Christopher Polack
+{table}
+
+h2 Meeting 10
+{table}
+Meeting Date: | March 14, 2018
+Start Time: 12:20pm | End Time: 1:30pm
+Attendance  | All team members present
+Purpose of Meeting | The purpose of this meeting was to continue working on tasks for our project. We also worked on the official client and project info for the expo event.
+Discuss work completed since last meeting | Since the last meeting, team members continued to work on the SAS files and worked on integrating the different components of our solution into a working prototype.
+Summarize work completed during meeting | During this meeting, we made additional progress getting more parts of the solution up and running. We were able to successfully run KSQL on the virtual machine and created property files to link the software to the existing databases. We contacted our client to ensure that we have his permission to associate his information with our project publicly for the expo.
+Review action items to be completed after meeting | By the next meeting, we need to submit our expo information assignment once we receive a response from our client. We will continue working on implementing the data transformation component of our solution into KSQL.
+Schedule next meeting | Friday, March 8
 Recording secretary | Christopher Polack
 {table}
 
@@ -134,7 +173,7 @@ h2 Meeting 2
 {table}
 Meeting Date: | September 13, 2017
 Start Time: 1:00pm | End Time:  1:30pm
-Attendance  | All team members present  
+Attendance  | All team members present
 Purpose of Meeting | The purpose of this meeting was to write our response email to our client and discuss potential meeting times this week and next week.
 Discuss work completed since last meeting | Since the last meeting we received a response from our client and needed to begin drafting the response email.
 Summarize work completed during meeting |  During this meeting we sent a response to our client’s email in order to organize an initial meeting.
@@ -162,7 +201,7 @@ Meeting Date: |  September 29, 2017
 Start Time: 1:00pm | End Time:  1:45pm
 Attendance  | All members present except for Bruce, who notified the team ahead of time that he would not be able to attend.
 Purpose of Meeting | After a very brief meeting on September 27, we decided to meet again today to discuss the User Story and Acceptance Criteria assignment due this weekend. Additionally we will develop a list of questions for our next meeting with our client when we will be able to speak with a contracted developer about the project.
-Discuss work completed since last meeting | Since the last meeting we have submitted all three of the previous assignments and worked on our single use case that we discussed in class. 
+Discuss work completed since last meeting | Since the last meeting we have submitted all three of the previous assignments and worked on our single use case that we discussed in class.
 Summarize work completed during meeting |  During the meeting we discussed how we would go about completing our assignment due to the complexity and abstract nature of our project. We are building a solution that will only be in direct contact with other processes in the system, i.e. no user will have direct interaction with our product. As a result, as we developed a plan for this assignment we found it difficult to discuss user stories in the traditional sense. We spoke with our instructor during this meeting in order to gain some insight as to how we should continue and we ultimately decided to create general use cases that would explain how end-users would interact with the systems that implement our system.
 Review action items to be completed after meeting | Team members will individually work on the user story assignment and at our next meeting we will discuss these ideas as a group and compile them to create a single submission.
 Schedule next meeting |  The next meeting will take place over the weekend to complete and submit the User Story assignment and to set goals for our next meeting with our client.
@@ -177,8 +216,8 @@ Start Time:  9:00am | End Time:  10:00am
 Attendance  | All members except Chris Polack, who notified us before that he would not be able to attend.
 Purpose of Meeting | The purpose of this meeting was to select, write, and finalize project user stories.
 Discuss work completed since last meeting | Since our last meeting we continued working on project and design familiarity, as the project is extensive. Team members were required to read all project related information that was provided by Mr. Anandappa. From these documents we were able to extract some of our user stories.
-Summarize work completed during meeting |  We started this meeting by discussing and selecting the user stories that would be most relevant for our project. Due to the nature of our product, we still have some ambiguity about the exact relationship between user and functionality, so we discussed how we might still close this gap in understanding. After selecting our user stories, we divided them amongst ourselves and worked to write them out. When each member had completed their user story, we went through and revised each other's work. Upon completion of our revisions, we posted our drafts to the tsquare site. 
-Review action items to be completed after meeting | We are meeting with Mr. Anandappa this Thursday, alongside several of the developers who have past experience within our project space. To this meeting we are bringing several technical based questions that we will be able to ask both Mr. Anandappa and the developers. We will be finalizing these questions by Wednesday and each team member has been asked to continue adding questions to the list. 
+Summarize work completed during meeting |  We started this meeting by discussing and selecting the user stories that would be most relevant for our project. Due to the nature of our product, we still have some ambiguity about the exact relationship between user and functionality, so we discussed how we might still close this gap in understanding. After selecting our user stories, we divided them amongst ourselves and worked to write them out. When each member had completed their user story, we went through and revised each other's work. Upon completion of our revisions, we posted our drafts to the tsquare site.
+Review action items to be completed after meeting | We are meeting with Mr. Anandappa this Thursday, alongside several of the developers who have past experience within our project space. To this meeting we are bringing several technical based questions that we will be able to ask both Mr. Anandappa and the developers. We will be finalizing these questions by Wednesday and each team member has been asked to continue adding questions to the list.
 Schedule next meeting | Our next meeting will take place Wednesday, October 4th
 Recording secretary | Noah Harper
 {table}
@@ -200,7 +239,7 @@ h2 Meeting 7
 {table}
 Meeting Date: |  Friday, October 13
 Start Time:  2:30pm | End Time:  3:30pm
-Attendance  | All team members present except for Bruce, who notified the team before the meeting that he would not be able to attend.  
+Attendance  | All team members present except for Bruce, who notified the team before the meeting that he would not be able to attend.
 Purpose of Meeting | The purpose of this meeting was to finalize our User Stories assignment, which was due at the end of this day.
 Discuss work completed since last meeting | Our team is waiting for emails from our client and the developers that will allow us to deploy a backup copy of the two databases we will be working with. This will allow us to get a much better understanding of the patient module and the data transformation that is occurring to get data from the Operational Database System to the Reporting Database.
 Summarize work completed during meeting |  We used our meeting time to revise our user stories assignment and incorporate the feedback we received from the other group. We found it difficult to describe these user stories in extreme detail because we still do not have an exact idea what the data should look like and how it should be transformed. We were able to reorganize all of our user stories by grouping some and removing others in order to make it clearer how our solution would be interacting with the current system. The first piece of feedback we received was that we did not provide enough background information for our project in order for the user cases to be understandable to others. In response, we added information to the beginning of the document to introduce some terminology and explain the overall purpose of our component. The second and third points of critique from our reviewing team related to the organization and consistency of our cases. We restructured many of our cases and regrouped certain actions so that it was clearer where specific actions were occurring and who would initiate them. We chose to keep the last user story the same because it is one of the aspects of our project that we cannot change. Our client stated this as specific functionality that needed to be included in our solution in order to improve over the previous version, so we do not see the details as implementation-specific but more as requirement-oriented.
@@ -241,7 +280,7 @@ Meeting Date: | Wednesday, October 25
 Start Time:  12pm | End Time:  1:15pm
 Attendance  | All 7351 team members except for Chris Polack. Team 7350 members were also present in order to facilitate heuristic evaluation.
 Purpose of Meeting | The purpose of this week's meeting was to connect with another team to exchange prototypes and offer feedback on project implementation.
-Discuss work completed since last meeting | Since the last meeting each team member has researched a specific part of our project to then present to the rest of the group. We had also mocked up a basic UI to present to group 7350. 
+Discuss work completed since last meeting | Since the last meeting each team member has researched a specific part of our project to then present to the rest of the group. We had also mocked up a basic UI to present to group 7350.
 Summarize work completed during meeting | Team 7350, who's project goal is to create an application to optimize band uniform rental, walked us through their application page mock ups. In general, it was the opinion of our team that the general flow of 7350's application was both easy to understand and congruent. In addition, we were able to offer them some general feedback on ambiguous functionality. Examples of this include clarifying the purpose of an "advanced search" when no normal search is available, simplifying the group management page, and how band member admins might transfer ownership of the admin accounts. We were also able to give them comments on future functionality issues, such as how the pages would be adapted to include information not currently relevant or available. This feedback is, of course, dependent on whether or not the application goes on to be actively maintained. In conclusion, the meeting was successful in that we were able to share and discuss each other's ideas.
 Review action items to be completed after meeting | Our next meeting will be our intra group research presentation where each member will present on different aspects of our project for the team’s benefit. The purpose of this was to try and better each team member’s familiarity with all of the aspects of our project.
 Schedule next meeting |  Friday, October 27th to discuss project technicalities.
@@ -273,9 +312,3 @@ Review action items to be completed after meeting | We will each work on the fin
 Schedule next meeting |  Our next meeting will be Wednesday, November 8.
 Recording secretary | Chris Polack
 {table}
-
-
-
-
-
-
