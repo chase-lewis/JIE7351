@@ -1,0 +1,1 @@
+..\bin\connect-standalone ..\etc\kafka\connect-standalone.properties ..\etc\cdc_properties\Database.properties
