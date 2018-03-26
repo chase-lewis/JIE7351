@@ -58,7 +58,7 @@ public class KafkaConsumerTest implements Runnable {
     config.put("group.id", "foo");
 
     ArrayList<String> alist = new ArrayList<>();
-    alist.add("sql-jdbc-demo-");
+    alist.add("sql-jdbc-tables-Entity");
 
     KafkaConsumerTest test = new KafkaConsumerTest(config, alist);
     test.run();
