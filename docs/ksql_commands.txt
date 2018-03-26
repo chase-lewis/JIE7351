@@ -1,1 +1,10 @@
-CREATE STREAM sql-jdbc-demo-original (viewtime bigint, person_uid bigint add_reason_cd varchar, add_user_id bigint, addtime bigint) WITH (kafka_topic='pageviews', value_format='DELIMITED');
+CREATE STREAM test_stream (person_uid bigint, add_reason_cd varchar, add_user_id bigint, last_chg_time bigint) WITH (kafka_topic='sql-jdbc-tables-Person', value_format='JSON');
+
+CREATE TABLE test_table (person_uid bigint, add_reason_cd varchar, add_user_id bigint, last_chg_time bigint) WITH (kafka_topic='sql-jdbc-tables-Person', value_format='DELIMITED', key='person_uid');
+
+CREATE TABLE test_table (person_uid bigint, add_reason_cd varchar, add_user_i bigint, last_chg_time bigint) WITH (kafka_topic='sql-jdbc-tables-Person', value_format='JSON', key='person_uid');
+
+CREATE STREAM entity (entity_uid bigint, class_cd varchar) WITH (kafka_topic='sql-jdbc-tables-Entity', value_format='JSON');
+
+CREATE TABLE test_table (entity_uid bigint, class_cd varchar) WITH (kafka_topic='sql-jdbc-tables-Entity', value_format='JSON', key='entity_uid');
+
