@@ -151,6 +151,19 @@ Schedule next meeting | Friday, March 8
 Recording secretary | Christopher Polack
 {table}
 
+h2 Meeting 11
+{table}
+Meeting Date: | March 27, 2018
+Start Time: 6:00pm | End Time: 8:00pm
+Attendance  | All team members present
+Purpose of Meeting | The purpose of this meeting is to continue working on our tasks for Sprint 4.
+Discuss work completed since last meeting | Since the last meeting, we received confirmation that our client will be attending the expo and submitted information. We also received approval that we could use our client’s name publicly in association with our project. Finally, we submitted our final draft of the detailed design document.
+Summarize work completed during meeting | During the meeting, our main task was to convert the SAS scripts into a format that KSQL, the streaming SQL transformation engine built into Confluent and Apache Kafka, could process. While we have written the software components that read data from the Operational Datastore and write data to the Reporting Database, we have not yet successfully completed the entire data transformation that must take place in between these two stages. The main challenge that we encountered during this part of the project is that it is difficult to find equivalent commands in KSQL for every SAS command that we have encountered in the file provided by our client. We discovered during this meeting that due to the fact that KSQL is in its early stages of development, it currently does not have all of the functionality required to process the data to the extend that we require it to. We decided to write this functionality into our Consumer, using Java code, so that we can still provide our client with a working solution. Due to the increased complexity of this step, we plan to reduce the scope of our solution within the Patient dimension so that we can still reach our deadline. We plan to meet with our client soon to discuss and receive approval for these changes to our project. During the meeting, we were also able to refactor some of the KSQL scripts we wrote to work on windows as specified by our client. Additionally, the database provides data queries in JSON format, so during this meeting we worked on a method to handle this data and unpack it so that we can work with it in KSQL.
+Review action items to be completed after meeting | By the next meeting, we will wrap up sprint 4 functionality and begin our sprint 5 tasks. Due to the issues we encountered during this stage of the project, we also will be explaining our situation to our client when we meet tomorrow so that we can receive some guidance. We plan to write out some of our ideas ahead of time so that we have full explanation for the roadblocks we have encountered.
+Schedule next meeting | Our next meeting scheduled for tomorrow, March 28, with our client.
+Recording secretary | Christopher Polack
+{table}
+
 
 
 h1 Meeting Minutes for CS 3311 - Fall 2017
