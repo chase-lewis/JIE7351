@@ -26,7 +26,24 @@ public class KafkaConsumerTest implements Runnable {
   }
 
   public void process(ConsumerRecord<String, String> record) {
-    System.out.println(ops.get(record.key()) + record.value());
+  	topic = record.topic();
+  	System.out.println("Topic");
+  	System.out.println(topic)
+    if (topic == "sql-jdbc-tables-Person") {
+    	process_person(record.value());
+    } else if (topic == "sql-jdbs-tables-Participation") {
+    	process_participation(record.value());
+    } else {
+    	System.out.println("Record is not from Person or Participation");
+    }
+  }
+
+  public void process_person(String rawjson) {
+
+  }
+
+  public void process_participation(String rawjson) {
+
   }
 
   public void run() {
@@ -58,7 +75,8 @@ public class KafkaConsumerTest implements Runnable {
     config.put("group.id", "foo");
 
     ArrayList<String> alist = new ArrayList<>();
-    alist.add("sql-jdbc-tables-Entity");
+    alist.add("sql-jdbc-tables-Person");
+    alist.add("sql-jdbs-tables-Participation");
 
     KafkaConsumerTest test = new KafkaConsumerTest(config, alist);
     test.run();
