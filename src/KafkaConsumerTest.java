@@ -6,9 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.CountDownLatch;
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 public class KafkaConsumerTest implements Runnable {
   private final KafkaConsumer<String, String> consumer;
@@ -30,12 +28,12 @@ public class KafkaConsumerTest implements Runnable {
   }
 
   public void process(ConsumerRecord<String, String> record) {
-  	topic = record.topic();
+  	String topic = record.topic();
   	System.out.println("Topic");
-  	System.out.println(topic)
-    if (topic == "sql-jdbc-tables-Person") {
+  	System.out.println(topic);
+    if (topic.equals("sql-jdbc-tables-Person")) {
     	process_person(record.value());
-    } else if (topic == "sql-jdbs-tables-Participation") {
+    } else if (topic.equals("sql-jdbc-tables-Participation")) {
     	process_participation(record.value());
     } else {
     	System.out.println("Record is not from Person or Participation");
@@ -43,15 +41,23 @@ public class KafkaConsumerTest implements Runnable {
   }
 
   public void process_person(String rawjson) {
-    JSONObject json = new JSONObject(rawjson);
-    JSONArray payload = json.optJSONArray("payload");
-    System.out.println(payload.optString("person_uid"));
+  	JSONObject json = null;
+    try {
+    	json = new JSONObject(rawjson).getJSONObject("payload");
+	    System.out.println(json.get("person_uid"));
+    } catch(JSONException e) {
+		e.printStackTrace();
+	}
   }
 
   public void process_participation(String rawjson) {
-    JSONObject json = new JSONObject(rawjson);
-    JSONArray payload = json.optJSONArray("payload");
-    System.out.println(payload.optString("subject_entity_uid"));
+    JSONObject json = null;
+    try {
+    	json = new JSONObject(rawjson).getJSONObject("payload");
+	    System.out.println(json.get("subject_entity_uid"));
+    } catch(JSONException e) {
+		e.printStackTrace();
+	}
   }
 
   public void run() {
@@ -84,7 +90,7 @@ public class KafkaConsumerTest implements Runnable {
 
     ArrayList<String> alist = new ArrayList<>();
     alist.add("sql-jdbc-tables-Person");
-    alist.add("sql-jdbs-tables-Participation");
+    alist.add("sql-jdbc-tables-Participation");
 
     KafkaConsumerTest test = new KafkaConsumerTest(config, alist);
     test.run();
