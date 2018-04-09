@@ -6,6 +6,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.CountDownLatch;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class KafkaConsumerTest implements Runnable {
   private final KafkaConsumer<String, String> consumer;
   private final List<String> topics;
@@ -39,11 +43,15 @@ public class KafkaConsumerTest implements Runnable {
   }
 
   public void process_person(String rawjson) {
-
+    JSONObject json = new JSONObject(rawjson);
+    JSONArray payload = json.optJSONArray("payload");
+    System.out.println(payload.optString("person_uid"));
   }
 
   public void process_participation(String rawjson) {
-
+    JSONObject json = new JSONObject(rawjson);
+    JSONArray payload = json.optJSONArray("payload");
+    System.out.println(payload.optString("subject_entity_uid"));
   }
 
   public void run() {
