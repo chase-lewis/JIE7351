@@ -48,7 +48,12 @@ public class KafkaConsumerTest implements Runnable {
   	JSONObject json = null;
     try {
     	json = new JSONObject(rawjson).getJSONObject("payload");
-	    System.out.println(json.get("person_uid"));
+      System.out.println(json.get("person_uid"));
+      String person_uid = json.get("person_uid");
+      String person_first = json.get("first_nm");
+      String person_last = json.get("last_nm");
+      String sql = String.format("update RDB.dbo.S_PATIENT set PATIENT_FIRST_NAME = %s, PATIENT_LAST_NAME = %s where PATIENT_UID = %s", person_first, person_last, person_uid);
+      rdbConnector.query(sql);
     } catch(JSONException e) {
 		e.printStackTrace();
 	}
