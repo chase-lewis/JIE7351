@@ -14,12 +14,16 @@ public class KafkaConsumerTest implements Runnable {
   private final AtomicBoolean shutdown;
   private final CountDownLatch shutdownLatch;
   private final HashMap<String, String> ops;
+  private final ODSConnector = odsConnector;
+  private final RDBConnector = rdbConnector;
 
-  public KafkaConsumerTest(Properties config, List<String> topics) {
+  public KafkaConsumerTest(Properties config, List<String> topics, String ip) {
     this.consumer = new KafkaConsumer<>(config);
     this.topics = topics;
     this.shutdown = new AtomicBoolean(false);
     this.shutdownLatch = new CountDownLatch(1);
+    this.odsConnector = new ODSConnector(ip);
+    this.rdbConnector = new RDBConnector(ip);
 
     ops = new HashMap<>();
     ops.put("I", "Insert ");
@@ -33,10 +37,10 @@ public class KafkaConsumerTest implements Runnable {
   	System.out.println(topic);
     if (topic.equals("sql-jdbc-tables-Person")) {
     	process_person(record.value());
-    } else if (topic.equals("sql-jdbc-tables-Participation")) {
+    } else if (topic.equals("sql-jdbc-tables-Postal_locator")) {
     	process_participation(record.value());
     } else {
-    	System.out.println("Record is not from Person or Participation");
+    	System.out.println("Record is not from Person or Postal Locator");
     }
   }
 
@@ -50,11 +54,16 @@ public class KafkaConsumerTest implements Runnable {
 	}
   }
 
-  public void process_participation(String rawjson) {
+  public void process_postal(String rawjson) {
     JSONObject json = null;
     try {
     	json = new JSONObject(rawjson).getJSONObject("payload");
-	    System.out.println(json.get("subject_entity_uid"));
+    	int postal_locator_uid = json.get("postal_locator_uid");
+	    System.out.println(postal_locator_uid);
+	    String sql = "select entity_uid from nbs_odse.dbo.Entity_locator_participation where locator_uid = " + postal_locator_uid;
+	    odsConnector.query(sql);
+        ResultSet result = connector.getResults();
+
     } catch(JSONException e) {
 		e.printStackTrace();
 	}
@@ -92,7 +101,7 @@ public class KafkaConsumerTest implements Runnable {
     alist.add("sql-jdbc-tables-Person");
     alist.add("sql-jdbc-tables-Participation");
 
-    KafkaConsumerTest test = new KafkaConsumerTest(config, alist);
+    KafkaConsumerTest test = new KafkaConsumerTest(config, alist, "128.61.23.115");
     test.run();
   }
 }

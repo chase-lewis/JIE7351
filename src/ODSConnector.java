@@ -1,12 +1,12 @@
 import java.sql.*;
 
-public class DBConnectorTest {
+public class ODSConnector {
 	//private String ip = "128.61.18.34";
-	private String connectionUrl[] = {"jdbc:sqlserver://", ":1433;DatabaseName=NBS_ODSE;user=sa;password=Nedss$GTRI;"};
+	private String connectionUrl[] = {"jdbc:sqlserver://", ":1433;DatabaseName=NBS_ODSE;user=test;password=test;"};
 	private ResultSet results;
 	private Connection connection;
 
-	public DBConnectorTest(String ip) {
+	public ODSConnector(String ip) {
 		// Load SQL Server JDBC driver and establish connection.
 		try{
 			String url = connectionUrl[0] + ip + connectionUrl[1];
