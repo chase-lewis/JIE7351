@@ -24,8 +24,8 @@ public class RDBConnector {
 			results = statement.executeQuery(queryString);
 				// System.out.println(results);
 		} catch (Exception e) {
-			System.out.println();
-			e.printStackTrace();
+			// System.out.println();
+			// e.printStackTrace();
 		}
 	}
 

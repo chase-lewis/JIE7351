@@ -5,6 +5,8 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.CountDownLatch;
 import java.util.HashMap;
+import java.sql.ResultSet;
+import java.lang.Runtime;
 
 import org.json.*;
 
@@ -14,8 +16,8 @@ public class KafkaConsumerTest implements Runnable {
   private final AtomicBoolean shutdown;
   private final CountDownLatch shutdownLatch;
   private final HashMap<String, String> ops;
-  private final ODSConnector = odsConnector;
-  private final RDBConnector = rdbConnector;
+  private final ODSConnector odsConnector;
+  private final RDBConnector rdbConnector;
 
   public KafkaConsumerTest(Properties config, List<String> topics, String ip) {
     this.consumer = new KafkaConsumer<>(config);
@@ -38,7 +40,7 @@ public class KafkaConsumerTest implements Runnable {
     if (topic.equals("sql-jdbc-tables-Person")) {
     	process_person(record.value());
     } else if (topic.equals("sql-jdbc-tables-Postal_locator")) {
-    	process_participation(record.value());
+    	process_postal(record.value());
     } else {
     	System.out.println("Record is not from Person or Postal Locator");
     }
@@ -49,10 +51,10 @@ public class KafkaConsumerTest implements Runnable {
     try {
     	json = new JSONObject(rawjson).getJSONObject("payload");
       System.out.println(json.get("person_uid"));
-      String person_uid = json.get("person_uid");
-      String person_first = json.get("first_nm");
-      String person_last = json.get("last_nm");
-      String sql = String.format("update RDB.dbo.S_PATIENT set PATIENT_FIRST_NAME = %s, PATIENT_LAST_NAME = %s where PATIENT_UID = %s", person_first, person_last, person_uid);
+      long person_uid = json.getInt("person_uid");
+      String person_first = json.getString("first_nm");
+      String person_last = json.getString("last_nm");
+      String sql = String.format("update RDB.dbo.S_PATIENT set PATIENT_FIRST_NAME = '%s', PATIENT_LAST_NAME = '%s' where PATIENT_UID = %d;", person_first, person_last, person_uid);
       rdbConnector.query(sql);
     } catch(JSONException e) {
 		e.printStackTrace();
@@ -63,15 +65,21 @@ public class KafkaConsumerTest implements Runnable {
     JSONObject json = null;
     try {
     	json = new JSONObject(rawjson).getJSONObject("payload");
-    	int postal_locator_uid = json.get("postal_locator_uid");
+    	int postal_locator_uid = json.getInt("postal_locator_uid");
 	    System.out.println(postal_locator_uid);
-	    String sql = "select entity_uid from nbs_odse.dbo.Entity_locator_participation where locator_uid = " + postal_locator_uid;
+	    String sql = "select entity_uid from NBS_ODSE.dbo.Entity_locator_participation where locator_uid = " + postal_locator_uid;
 	    odsConnector.query(sql);
-        ResultSet result = connector.getResults();
+        ResultSet result = odsConnector.getResults();
+        // System.out.println(result);
+        while(result.next()) {
+        	System.out.println(result.getInt(1));
+        }
 
     } catch(JSONException e) {
-		e.printStackTrace();
-	}
+		  e.printStackTrace();
+	  } catch(Exception e) {
+      // e.printStackTrace();
+    }
   }
 
   public void run() {
@@ -104,7 +112,7 @@ public class KafkaConsumerTest implements Runnable {
 
     ArrayList<String> alist = new ArrayList<>();
     alist.add("sql-jdbc-tables-Person");
-    alist.add("sql-jdbc-tables-Participation");
+    alist.add("sql-jdbc-tables-Postal_locator");
 
     KafkaConsumerTest test = new KafkaConsumerTest(config, alist, "128.61.23.115");
     test.run();

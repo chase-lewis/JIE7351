@@ -49,16 +49,10 @@ CREATE TABLE S_INITPATIENT AS SELECT
 NBS_ODS.PERSON,NBS_ODS.PARTICIPATION
     WHERE PERSON.PERSON_UID=PARTICIPATION.SUBJECT_ENTITY_UID
 #############################################################################################
-CREATE TABLE person_raw (schema varchar, payload varchar) WITH (kafka_topic='sql-jdbc-tables-Person', value_format='JSON', key='person_uid');
+CREATE STREAM person_raw (schema varchar, payload varchar) WITH (kafka_topic='sql-jdbc-tables-Person', value_format='JSON');
 
-CREATE TABLE participation_raw (schema varchar, payload varchar) WITH (kafka_topic='sql-jdbc-tables-Participation', value_format='JSON');
+CREATE STREAM participation_raw (schema varchar, payload varchar) WITH (kafka_topic='sql-jdbc-tables-Participation', value_format='JSON');
 
-CREATE TABLE person AS SELECT EXTRACTJSONFIELD(payload, '$.person_uid') AS person_uid, EXTRACTJSONFIELD(payload, '$.act_uid') AS patient_local_uid FROM person_raw;
+CREATE STREAM person AS SELECT EXTRACTJSONFIELD(payload, '$.person_uid') AS person_uid, EXTRACTJSONFIELD(payload, '$.act_uid') AS patient_local_uid FROM person_raw;
 
-CREATE TABLE participation AS SELECT EXTRACTJSONFIELD(payload, '$.subject_entity_uid') AS subject_entity_uid, EXTRACTJSONFIELD(payload, '$.type_cd') AS patient_event_type FROM participation_raw;
-
-CREATE STREAM patient AS SELECT person.patient_uid, person.patient_local_uid, participation.patient_event_type FROM person, participation WHERE person.person_uid=participation.subject_entity_uid;
-
-CREATE TABLE patient AS SELECT person.person_uid, person.patient_local_uid FROM person LEFT JOIN participation ON person.person_uid=participation.subject_entity_uid;
-
-CREATE STREAM patient AS SELECT person.patient_uid, person.patient_local_uid FROM person
+CREATE STREAM participation AS SELECT EXTRACTJSONFIELD(payload, '$.subject_entity_uid') AS subject_entity_uid, EXTRACTJSONFIELD(payload, '$.type_cd') AS patient_event_type FROM participation_raw;

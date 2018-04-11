@@ -1,8 +1,12 @@
 SELECT * FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, NULL) AS C;
 
 UPDATE NBS_ODSE.dbo.Person
-SET add_reason_cd='yes change tracking', add_time=GETDATE()
+SET add_reason_cd='yes change tracking', last_chg_time=GETDATE()
 WHERE person_uid=10000001
+
+UPDATE NBS_ODSE.dbo.Postal_locator
+SET add_reason_cd='look for entity_uid', last_chg_time=GETDATE()
+WHERE postal_locator_uid=10000002
 
 ALTER TABLE NBS_ODSE.dbo.Person
 ENABLE CHANGE_TRACKING
