@@ -54,7 +54,11 @@ public class KafkaConsumerTest implements Runnable {
       long person_uid = json.getInt("person_uid");
       String person_first = json.getString("first_nm");
       String person_last = json.getString("last_nm");
-      String sql = String.format("update RDB.dbo.S_PATIENT set PATIENT_FIRST_NAME = '%s', PATIENT_LAST_NAME = '%s' where PATIENT_UID = %d;", person_first, person_last, person_uid);
+      String sql = String.format("update RDB.dbo.S_PATIENT "
+                               + "set PATIENT_FIRST_NAME = '%s', "
+                               + "PATIENT_LAST_NAME = '%s' "
+                               + "where PATIENT_UID = %d;", 
+                               person_first, person_last, person_uid);
       rdbConnector.query(sql);
     } catch(JSONException e) {
 		e.printStackTrace();
@@ -79,7 +83,13 @@ public class KafkaConsumerTest implements Runnable {
         entity_uid = result.getInt(1);
         System.out.println(entity_uid);
       }
-      sql = String.format("update RDB.dbo.S_PATIENT set PATIENT_CITY = '%s', PATIENT_STATE = '%s', PATIENT_STREET_ADDRESS_1 = '%s', PATIENT_STREET_ADDRESS_2 = '%s' where PATIENT_UID = %d;", city, state, street_addr1, street_addr2, entity_uid);
+      sql = String.format("update RDB.dbo.S_PATIENT "
+                        + "set PATIENT_CITY = '%s', "
+                        + "PATIENT_STATE = '%s', "
+                        + "PATIENT_STREET_ADDRESS_1 = '%s', "
+                        + "PATIENT_STREET_ADDRESS_2 = '%s' "
+                        + "where PATIENT_UID = %d;", 
+                        city, state, street_addr1, street_addr2, entity_uid);
       rdbConnector.query(sql);
 
     } catch(JSONException e) {
