@@ -66,14 +66,18 @@ public class KafkaConsumerTest implements Runnable {
     try {
     	json = new JSONObject(rawjson).getJSONObject("payload");
     	int postal_locator_uid = json.getInt("postal_locator_uid");
-	    System.out.println(postal_locator_uid);
+      String city = json.getString("city_cd");
+      String state = json.getString("state_cd");
+      String street_addr1 = json.getString("street_addr1");
+      String street_addr2 = json.getString("street_addr2");
+	    System.out.println(String.format("%s : %s : %s : %s : %d", city, state, street_addr1, street_addr2, postal_locator_uid));
 	    String sql = "select entity_uid from NBS_ODSE.dbo.Entity_locator_participation where locator_uid = " + postal_locator_uid;
 	    odsConnector.query(sql);
-        ResultSet result = odsConnector.getResults();
-        // System.out.println(result);
-        while(result.next()) {
-        	System.out.println(result.getInt(1));
-        }
+      ResultSet result = odsConnector.getResults();
+      int entity_uid = result.getInt(1);
+      System.out.println(entity_uid);
+      sql = String.format("update RDB.dbo.S_PATIENT set PATIENT_CITY = '%s', PATIENT_STATE = '%s', PATIENT_STREET_ADDRESS_1 = '%s', PATIENT_STREET_ADDRESS_2 = '%s';", city, state, street_addr1, street_addr2);
+      rdbConnector.query(sql);
 
     } catch(JSONException e) {
 		  e.printStackTrace();
@@ -114,7 +118,7 @@ public class KafkaConsumerTest implements Runnable {
     alist.add("sql-jdbc-tables-Person");
     alist.add("sql-jdbc-tables-Postal_locator");
 
-    KafkaConsumerTest test = new KafkaConsumerTest(config, alist, "128.61.23.115");
+    KafkaConsumerTest test = new KafkaConsumerTest(config, alist, "128.61.21.133");
     test.run();
   }
 }
