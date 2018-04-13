@@ -66,17 +66,20 @@ public class KafkaConsumerTest implements Runnable {
     try {
     	json = new JSONObject(rawjson).getJSONObject("payload");
     	int postal_locator_uid = json.getInt("postal_locator_uid");
-      String city = json.getString("city_cd");
-      String state = json.getString("state_cd");
-      String street_addr1 = json.getString("street_addr1");
-      String street_addr2 = json.getString("street_addr2");
+      String city = (json.isNull("city_cd")) ? null : json.getString("city_cd");
+      String state = (json.isNull("state_cd")) ? null : json.getString("state_cd");
+      String street_addr1 = (json.isNull("street_addr1")) ? null : json.getString("street_addr1");
+      String street_addr2 = (json.isNull("street_addr2")) ? null : json.getString("street_addr2");
 	    System.out.println(String.format("%s : %s : %s : %s : %d", city, state, street_addr1, street_addr2, postal_locator_uid));
 	    String sql = "select entity_uid from NBS_ODSE.dbo.Entity_locator_participation where locator_uid = " + postal_locator_uid;
 	    odsConnector.query(sql);
       ResultSet result = odsConnector.getResults();
-      int entity_uid = result.getInt(1);
-      System.out.println(entity_uid);
-      sql = String.format("update RDB.dbo.S_PATIENT set PATIENT_CITY = '%s', PATIENT_STATE = '%s', PATIENT_STREET_ADDRESS_1 = '%s', PATIENT_STREET_ADDRESS_2 = '%s';", city, state, street_addr1, street_addr2);
+      int entity_uid = 0;
+      while (result.next()) {
+        entity_uid = result.getInt(1);
+        System.out.println(entity_uid);
+      }
+      sql = String.format("update RDB.dbo.S_PATIENT set PATIENT_CITY = '%s', PATIENT_STATE = '%s', PATIENT_STREET_ADDRESS_1 = '%s', PATIENT_STREET_ADDRESS_2 = '%s' where PATIENT_UID = %d;", city, state, street_addr1, street_addr2, entity_uid);
       rdbConnector.query(sql);
 
     } catch(JSONException e) {
