@@ -39,7 +39,7 @@ public class KafkaConsumerTest implements Runnable {
     	process_person(record.value());
     } else if (topic.equals("sql-jdbc-tables-Postal_locator")) {
     	process_postal(record.value());
-    } else if topic.equals("sql-jdbc-tables-Person_race")) {
+    } else if (topic.equals("sql-jdbc-tables-Person_race")) {
       process_race(record.value());
     } else {
     	System.out.println("Record is not from Person or Postal Locator");
@@ -115,10 +115,9 @@ public class KafkaConsumerTest implements Runnable {
       String race = "";
       while (result.next()) {
         race = result.getString(1);
-        category = result.getString(2);
         races.add(race);
       }
-      String decoded_races = new String[races.size()];
+      String[] decoded_races = new String[races.size()];
       for (int i = 0; i < races.size(); i++) {
         sql = "select code_desc_txt from NBS_SRTE.dbo.Race_code where code = " + r;
         connector.getResults();
@@ -126,33 +125,21 @@ public class KafkaConsumerTest implements Runnable {
       }
       String race_calculated = decoded_races[0];
       String race_calculated_details = "";
-      for String r in decoded_races:
-        race_calculated_details += r + " | ";
+      for (String r : decoded_races) {
+        race_calculated_details = race_calculated_details + r + " | ";
+      }
       if (decoded_races.length > 1) {
         race_calculated = "Multi-Race";
       }
 
+      // Update RDB
       System.out.println(String.format("Calculated Race: %s \n Calculated Race Details: %s", race_calculated, race_calculated_details));
       String sql = String.format("update RDB.dbo.S_PATIENT "
                                 + "set PATIENT_RACE_CALCULATED = '%s', "
                                 + "PATIENT_RACE_CALC_DETAILS ='%s', "
-                                + from RDB.dbo.S_PATIENT where person_uid = %d" + postal_locator_uid);
+                                + "where person_uid = %d",
+                                race_calculated, race_calculated_details, person_uid);
       connector.query(sql);
-      ResultSet result = connector.getResults();
-      int entity_uid = 0;
-      while (result.next()) {
-        entity_uid = result.getInt(1);
-        System.out.println(entity_uid);
-      }
-      sql = String.format("update RDB.dbo.S_PATIENT "
-                        + "set PATIENT_CITY = '%s', "
-                        + "PATIENT_STATE = '%s', "
-                        + "PATIENT_STREET_ADDRESS_1 = '%s', "
-                        + "PATIENT_STREET_ADDRESS_2 = '%s' "
-                        + "where PATIENT_UID = %d;",
-                        city, state, street_addr1, street_addr2, entity_uid);
-      connector.query(sql);
-
     } catch(JSONException e) {
       e.printStackTrace();
     } catch(Exception e) {
@@ -191,6 +178,7 @@ public class KafkaConsumerTest implements Runnable {
     ArrayList<String> alist = new ArrayList<>();
     alist.add("sql-jdbc-tables-Person");
     alist.add("sql-jdbc-tables-Postal_locator");
+    alist.add("sql-jdbc-tables-Person_race");
 
     KafkaConsumerTest test = new KafkaConsumerTest(config, alist, "128.61.21.133");
     test.run();
