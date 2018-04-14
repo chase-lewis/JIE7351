@@ -22,9 +22,16 @@ public class Connector {
 		try {
 			Statement statement = connection.createStatement();
 			results = statement.executeQuery(queryString);
-				// System.out.println(results);
 		} catch (Exception e) {
-			System.out.println();
+			e.printStackTrace();
+		}
+	}
+
+	public void update(String queryString) {
+		try {
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(queryString);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -13,7 +13,7 @@ public class KafkaProducerTest implements Runnable {
     private int last_version;
 
     public KafkaProducerTest(Properties config, String ip) {
-        //this.producer = null; 
+        //this.producer = null;
         this.producer = new KafkaProducer<>(config);
         this.connector = new DBConnectorTest(ip);
         //Doesn't work yet, will work on it later
@@ -37,14 +37,14 @@ public class KafkaProducerTest implements Runnable {
             connector.query(sql);
             ResultSet result = connector.getResults();
             //Parse results from intial query
-            
+
             while (result.next()) {
                 String row = String.format("%d %s", result.getInt(1), result.getString(2));
                 System.out.println(row);
-                producer.send(new ProducerRecord<String, String>("test1", "I", row));
+                producer.send(new ProducerRecord<String, String>("sql-jdbc-tables-Person", "I", row));
             }
 
-            
+
             //Monitor loop
             while (true) {
                 //TODO We need to change the below query to selecting based on last_chg_time
@@ -57,7 +57,7 @@ public class KafkaProducerTest implements Runnable {
                     last_version = result.getInt(1);
                     String op = result.getString(2);
                     String person_uid = result.getString(3);
-                    
+
                     sql = String.format("SELECT * FROM NBS_ODSE.dbo.Entity WHERE entity_uid=%s", person_uid);
                     connector.query(sql);
                     ResultSet result2 = connector.getResults();

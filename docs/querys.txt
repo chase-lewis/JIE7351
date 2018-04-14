@@ -1,16 +1,23 @@
-SELECT * FROM CHANGETABLE (CHANGES NBS_ODSE.dbo.Person, NULL) AS C;
+###################################
+# Queries for testing person name #
+###################################
 
-UPDATE NBS_ODSE.dbo.Person
-SET add_reason_cd='yes change tracking', last_chg_time=GETDATE()
-WHERE person_uid=10000001
+update NBS_ODSE.dbo.Person set first_nm='bobby', last_nm='bob', last_chg_time=GETDATE() where person_uid=1000001
 
-UPDATE NBS_ODSE.dbo.Postal_locator
-SET add_reason_cd='look for entity_uid', last_chg_time=GETDATE()
-WHERE postal_locator_uid=10000002
+#################################
+# Query for testing person race #
+#################################
 
-ALTER TABLE NBS_ODSE.dbo.Person
-ENABLE CHANGE_TRACKING
-WITH (TRACK_COLUMNS_UPDATED = ON)
+update NBS_ODSE.dbo.Person_race set last_chg_time=GETDATE() where person_uid = 10009012
+
+##############################
+# Queries for testing postal #
+##############################
+
+update NBS_ODSE.dbo.Postal_locator set city_cd = 'Test', last_chg_time=GETDATE() where postal_locator_uid = 10000002
+
+
+
 
 # Queries for Entity Table #
 ############################

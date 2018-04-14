@@ -36,13 +36,16 @@ public class KafkaConsumerTest implements Runnable {
   	System.out.println("Topic");
   	System.out.println(topic);
     if (topic.equals("sql-jdbc-tables-Person")) {
+      System.out.println("Person");
     	process_person(record.value());
     } else if (topic.equals("sql-jdbc-tables-Postal_locator")) {
+      System.out.println("Postal");
     	process_postal(record.value());
     } else if (topic.equals("sql-jdbc-tables-Person_race")) {
+      System.out.println("Race");
       process_race(record.value());
     } else {
-    	System.out.println("Record is not from Person or Postal Locator");
+    	System.out.println("Record is not from Person or Postal Locator or Person race");
     }
   }
 
@@ -59,9 +62,9 @@ public class KafkaConsumerTest implements Runnable {
                                + "PATIENT_LAST_NAME = '%s' "
                                + "where PATIENT_UID = %d;",
                                person_first, person_last, person_uid);
-      connector.query(sql);
+      connector.update(sql);
     } catch(JSONException e) {
-		e.printStackTrace();
+		// e.printStackTrace();
 	}
   }
 
@@ -90,10 +93,10 @@ public class KafkaConsumerTest implements Runnable {
                         + "PATIENT_STREET_ADDRESS_2 = '%s' "
                         + "where PATIENT_UID = %d;",
                         city, state, street_addr1, street_addr2, entity_uid);
-      connector.query(sql);
+      connector.update(sql);
 
     } catch(JSONException e) {
-		  e.printStackTrace();
+		  // e.printStackTrace();
 	  } catch(Exception e) {
       // e.printStackTrace();
     }
@@ -108,7 +111,11 @@ public class KafkaConsumerTest implements Runnable {
       int person_uid = json.getInt("person_uid");
       //calculate the PATIENT_RACE_CALCULATED
       //instantiate list of races and categories
+
+      System.out.println(person_uid);
+
       ArrayList<String> races = new ArrayList<>();
+      System.out.println("1");
       sql = "select race_cd from NBS_ODSE.dbo.Person_race where person_uid = " + person_uid;
       connector.query(sql);
       result = connector.getResults();
@@ -117,31 +124,47 @@ public class KafkaConsumerTest implements Runnable {
         race = result.getString(1);
         races.add(race);
       }
-      String[] decoded_races = new String[races.size()];
+
+      System.out.println(races.toString());
+
+      ArrayList<String> decoded_races = new ArrayList<>();
       for (int i = 0; i < races.size(); i++) {
-        sql = "select code_desc_txt from NBS_SRTE.dbo.Race_code where code = " + r;
-        connector.getResults();
-        decoded_races[i] = result.getString(1);
+        race = races.get(i);
+        if (!race.equals("PHC1175") && !race.equals("NASK") && !race.equals("U")) {
+          sql = String.format("select code_desc_txt from NBS_SRTE.dbo.Race_code where code = '%s'", race);
+          System.out.println(sql);
+          connector.query(sql);
+          result = connector.getResults();
+          while (result.next()) {
+            decoded_races.add(result.getString(1));
+            System.out.println(i + " = " + decoded_races.get(i));
+          }
+        }
       }
-      String race_calculated = decoded_races[0];
-      String race_calculated_details = "";
-      for (String r : decoded_races) {
-        race_calculated_details = race_calculated_details + r + " | ";
+      String race_calculated = decoded_races.get(0);
+      String race_calculated_details = decoded_races.get(0);
+      for (int i = 1; i < decoded_races.size(); i++) {
+        race_calculated_details += " | ";
+        race_calculated_details += decoded_races.get(i);
       }
-      if (decoded_races.length > 1) {
+      if (decoded_races.size() > 1) {
         race_calculated = "Multi-Race";
+      } else if (decoded_races.size() == 0) {
+        race_calculated = "Unknown";
+        race_calculated_details = "Unknown";
       }
 
       // Update RDB
       System.out.println(String.format("Calculated Race: %s \n Calculated Race Details: %s", race_calculated, race_calculated_details));
-      String sql = String.format("update RDB.dbo.S_PATIENT "
-                                + "set PATIENT_RACE_CALCULATED = '%s', "
-                                + "PATIENT_RACE_CALC_DETAILS ='%s', "
-                                + "where person_uid = %d",
-                                race_calculated, race_calculated_details, person_uid);
-      connector.query(sql);
+      sql = String.format("update RDB.dbo.S_PATIENT "
+                        + "set PATIENT_RACE_CALCULATED = '%s', "
+                        + "PATIENT_RACE_CALC_DETAILS ='%s' "
+                        + "where PATIENT_UID = %d",
+                        race_calculated, race_calculated_details, person_uid);
+      System.out.println(sql);
+      connector.update(sql);
     } catch(JSONException e) {
-      e.printStackTrace();
+      // e.printStackTrace();
     } catch(Exception e) {
       // e.printStackTrace();
     }
@@ -153,6 +176,7 @@ public class KafkaConsumerTest implements Runnable {
 
       while (!shutdown.get()) {
         ConsumerRecords<String, String> records = consumer.poll(Long.MAX_VALUE);
+        System.out.println(records);
         records.forEach(record -> process(record));
       }
     } catch (Exception e) {
