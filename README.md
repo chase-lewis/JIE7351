@@ -108,13 +108,11 @@ AWS provides many compute instances, each with a different combination of CPU, m
 
  - Edit the KafkaConsumerTest.java in ```src/KafkaConsumerTest.java```
 
+     - Replace the second argument of ```config.put("bootstrap.servers", "localhost:9092");``` line 173 with the correct ip and port of your kafka cluster, if you are hosting the kafka cluster on a different machine than the machine running the consumer and/or producer. Default port is 9092, but can be configured.
+
     - Replace the third argument of the constructor with the IP of your Database
 
 ```KafkaConsumerTest test = new KafkaConsumerTest(config, alist, "128.61.27.82");```
-
-    - Replace the second argument of line 173 with the correct ip and port of your kafka cluster, if you are hosting the kafka cluster on a different machine than the machine running the consumer and/or producer. Default port is 9092, but can be configured.
-
-```config.put("bootstrap.servers", "localhost:9092");```
 
 ### Running
 
