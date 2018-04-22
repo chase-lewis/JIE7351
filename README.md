@@ -175,19 +175,33 @@ The folder `etc/cdc_properties` and all the properties inside it
 `etc/cdc_properties/Database.properties`
 
 #### The source files we created
-`src/Connector.java` The connector for connecting to the ms sql server
+ - The connector for connecting to the ms sql server:
 
-`src/KafkaConsumerTest.java` The very bare-bones consumer that we coded
+`src/Connector.java` 
 
-`src/KafkaProducerTest.java` The barebones producer, we currently are not using this, but using the built in producer that reads our Database.properties`
+ - The customized consumer with transformation logic and configuration for writing to the RDB:
 
-`src/make_consumer.bat` The batch file that runs KafkaConsumerTest and includes all the required jar files to run the java`
+`src/KafkaConsumerTest.java` 
 
-`src/make_producer.bat` The batch file that runs KafkaProducerTest and includes all the required jar files
+ - The barebones producer, not currently used:
 
-`src/standalone_producer.bat` The batch file that is similar/identical to the standalone_producer script in `/bin`. It runs kafka’s standalone producer, passing in the Database.properties file as the properties
+`src/KafkaProducerTest.java` 
 
-`ksql/bin/windows/ksql-run-class.bat` The batch file to start ksql
+ - The batch file that runs KafkaConsumerTest and includes all the required jar files to run the java:
+
+`src/make_consumer.bat` 
+
+ - The batch file that runs KafkaProducerTest and includes all the required jar files:
+
+`src/make_producer.bat` 
+
+ - The batch file similar to the standalone_producer script in `/bin`. It runs kafka’s standalone producer, passing in the Database.properties file as the properties:
+
+`src/standalone_producer.bat` 
+
+ - The batch file to start ksql:
+
+`ksql/bin/windows/ksql-run-class.bat` 
 
 ### Troubleshooting
 
@@ -196,6 +210,8 @@ The folder `etc/cdc_properties` and all the properties inside it
      - If any batch file closes without error, try running it through the command prompt instead of double clicking.
      
      - If `bin/windows/start-all.bat` has any batch files close without error, try running `start-kafka.bat` `start-schema.bat` and `start-zookeeper.bat` individually through command prompt instead of double clicking.
+
+     - Delete system `/tmp/zookeeper` and `/tmp/kafka-logs` files
 
  - Cannot connect to ODS or RDB: Ensure the correct credentials and ip are changed in the Database.properties, Connector.java and KafkaConsumerTest.java. Refer to the setup section for more details.
 
