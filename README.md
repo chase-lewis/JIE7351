@@ -1,24 +1,20 @@
 # Documentation
 
 ## Terminology and Acronyms
-**CDC (Centers for Disease Control and Prevention)**: The CDC is one of the primary operating components of the United States Department of Health and Human Services.
-**ETL (Extract, Transform, Load)**: The process of extracting information from one database, transforming it into a new format, and loading it into another database.
-**Health Partners**: The Centers for Disease Control and Prevention works with other health agencies and organizations in its effort to strengthen public health. These can include other government agencies, academic institutions, foundations, non-governmental institutions, faith-based organizations, and private entities.
-**JDBC (Java Database Connectivity)**: Industry standard for database-independent connectivity between the Java programming language and a wide range of databases. 
-**Kafka**: Apache Kafka is an open-source distributed streaming platform that is used for building real-time data pipelines and streaming applications.
-**Kafka Cluster**: Kafka entity that stores streams of records in categories called topics. Kafka is run as a cluster on one or more servers.
-**Kafka Producer**: Kafka entity that allows applications to send streams of data to topics in the Kafka cluster.
-**Kafka Consumer**: Kafka entity that allows applications to read streams of data from topics in the Kafka Cluster.
-**KSQL**: Confluent component that allows one to read, write, and process streaming data in real-time using SQL-like semantics.
-**NEDSS (National Electronic Disease Surveillance System)**: NEDSS allows states and health partners to enter disease data into a database accessible to health investigators. It allows labs to upload reports to health partners, integrates multiple databases into a single integrated system, and allows partners to send and share information. The foundational data component of the NEDSS is called the NEDSS Base System (NBS).
-**ODS (Operational Datastore)**: Database designed for transaction management amongst health partners and related health officials. Source for the ETL process. 
-**SAS**: Software currently used for data storage, manipulation and analysis. Proprietary service we are tasked with replacing. 
-**Schema Registry**: A component of Confluent Open Source that stores a versioned history of all schemas and allows for the changing of schemas based on previous versions.
-**RDB (Reporting Database)**: Database designed for data analysis and reporting. Sink for the ETL process. 
-
-
-
-
+ - **CDC (Centers for Disease Control and Prevention)**: The CDC is one of the primary operating components of the United States Department of Health and Human Services.
+ - **ETL (Extract, Transform, Load)**: The process of extracting information from one database, transforming it into a new format, and loading it into another database.
+ - **Health Partners**: The Centers for Disease Control and Prevention works with other health agencies and organizations in its effort to strengthen public health. These can include other government agencies, academic institutions, foundations, non-governmental institutions, faith-based organizations, and private entities.
+ - **JDBC (Java Database Connectivity)**: Industry standard for database-independent connectivity between the Java programming language and a wide range of databases. 
+ - **Kafka**: Apache Kafka is an open-source distributed streaming platform that is used for building real-time data pipelines and streaming applications.
+ - **Kafka Cluster**: Kafka entity that stores streams of records in categories called topics. Kafka is run as a cluster on one or more servers.
+ - **Kafka Producer**: Kafka entity that allows applications to send streams of data to topics in the Kafka cluster.
+ - **Kafka Consumer**: Kafka entity that allows applications to read streams of data from topics in the Kafka Cluster.
+ - **KSQL**: Confluent component that allows one to read, write, and process streaming data in real-time using SQL-like semantics.
+ - **NEDSS (National Electronic Disease Surveillance System)**: NEDSS allows states and health partners to enter disease data into a database accessible to health investigators. It allows labs to upload reports to health partners, integrates multiple databases into a single integrated system, and allows partners to send and share information. The foundational data component of the NEDSS is called the NEDSS Base System (NBS).
+ - **ODS (Operational Datastore)**: Database designed for transaction management amongst health partners and related health officials. Source for the ETL process. 
+ - **SAS**: Software currently used for data storage, manipulation and analysis. Proprietary service we are tasked with replacing. 
+ - **Schema Registry**: A component of Confluent Open Source that stores a versioned history of all schemas and allows for the changing of schemas based on previous versions.
+ - **RDB (Reporting Database)**: Database designed for data analysis and reporting. Sink for the ETL process. 
 
 ## Project Introduction
 The Centers for Disease Control (CDC) and Prevention maintains an integrated information system called the National Electronic Disease Surveillance System (NEDSS). The NEDSS Base System allows states and health partners to enter disease data into a database that is accessible to health investigators. It allows labs to upload reports to health partners, integrates multiple databases into a single integrated system, and allows partners to send and share information. This system is used in twenty-three states nationwide.
@@ -88,86 +84,89 @@ AWS provides many compute instances, each with a different combination of CPU, m
 
 ### Prerequisites and Dependencies
 
- - [Java 8 jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
- - [Microsoft SQL Server Management Studio connection setup](https://www.top-password.com/blog/how-to-enable-remote-connections-in-sql-server/)
- - [Enabling the right ports for remote connection](https://blogs.msdn.microsoft.com/walzenbach/2010/04/14/how-to-enable-remote-connections-in-sql-server-2008/)
+ - [Java 8 jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html){:target="_blank"}
+ - [Microsoft SQL Server Management Studio connection setup](https://www.top-password.com/blog/how-to-enable-remote-connections-in-sql-server/){:target="_blank"}
+ - [Enabling the right ports for remote connection](https://blogs.msdn.microsoft.com/walzenbach/2010/04/14/how-to-enable-remote-connections-in-sql-server-2008/){:target="_blank"}
 
 ### Setup
 
-Begin by cloning the following git repo to an appropriate location on your system:
+ - Begin by cloning the following git repo to an appropriate location on your system:
 
 <https://github.com/chase-lewis/JIE7351.git>
 
-Edit the Database.properties file in ```etc/cdc_properties```
+ - Edit the Database.properties file in ```etc/cdc_properties```
 
-Replace the ip and user/password for the connection.url with the correct ip and credentials of the database
+     - Replace the ip and user/password for the connection.url with the correct ip and credentials of the database
 
 ```connection.url=jdbc:sqlserver://128.61.27.82:1433;DatabaseName=NBS_ODSE;user=test;password=test;```
 
-Edit the Connector.java file in ```src/Connector.java```
+ - Edit the Connector.java file in ```src/Connector.java```
 
-Replace the user/password for the connectionUrl with the correct credentials of the database
+     - Replace the user/password for the connectionUrl with the correct credentials of the database
 
 ```private String connectionUrl[] = {"jdbc:sqlserver://", ":1433;user=test;password=test;"};```
 
-Edit the KafkaConsumerTest.java in ```src/KafkaConsumerTest.java```
+ - Edit the KafkaConsumerTest.java in ```src/KafkaConsumerTest.java```
 
-Replace the third argument of the constructor with the IP of your Database
+    - Replace the third argument of the constructor with the IP of your Database
 
 ```KafkaConsumerTest test = new KafkaConsumerTest(config, alist, "128.61.27.82");```
 
-Replace the second argument of ```config.put("bootstrap.servers", "localhost:9092");``` line 173 with the correct ip and port of your kafka cluster, if you are hosting the kafka cluster on a different machine than the machine running the consumer and/or producer. Default port is 9092, but can be configured.
+     - Replace the second argument of ```config.put("bootstrap.servers", "localhost:9092");``` line 173 with the correct ip and port of your kafka cluster, if you are hosting the kafka cluster on a different machine than the machine running the consumer and/or producer. Default port is 9092, but can be configured.
 
 ### Running
 
 #### Windows
 
-Start Zookeeper, Kafka, and the Schema Registry with the following command from the parent level directory:
+ - Start Zookeeper, Kafka, and the Schema Registry with the following command from the parent level directory:
 
 `bin/windows/start-all.bat`
 
-To start the producer:
+ - To start the producer:
 
 `src/standalone_producer.bat`
 
-To start the consumer:
+ - To start the consumer:
 
 `src/make_consumer.bat`
 
-To start the ksql-cli:
+ - To start the ksql-cli:
 
 `ksql/bin/windows/ksql-run-class.bat`
 
 #### Unix
 
-Start Zookeeper, Kafka, and the Schema Registry with the following command from the parent level directory:
+ - Start Zookeeper, Kafka, and the Schema Registry with the following command from the parent level directory:
 
 `bin/confluent start`
 
-To start the producer:
+ - To start the producer:
 
 `src/standalone_producer.sh`
 
-To start the consumer:
+ - To start the consumer:
 
 `src/make_consumer.sh`
 
-To start the ksql-cli:
+ - To start the ksql-cli:
 
 `$ LOG_DIR=./ksql_logs <path-to-confluent>/bin/ksql`
 
 ## Further development
 
-The files we changed in order to get kafka to run on windows were
+The files we changed in order to get kafka to run on windows:
 
-#### Batch files to start kafka, schema-registry and zookeeper, identical to confluent start command for unix
+### Batch files to start kafka, schema-registry and zookeeper, identical to confluent start command for unix
 `bin/windows/start-all.bat`
 (start-all.bat script calls the following three scripts, use this OR the other 3, not both)
+
+(make sure to run in the following order)
+`bin/windows/start-zookeeper.bat`
 `bin/windows/start-kafka.bat`
 `bin/windows/start-schema.bat`
-`bin/windows/start-zookeeper.bat`
 
-#### The properties files used by the standalone producer built into kafka
+
+### The properties files used by the standalone producer built into kafka
 The folder `etc/cdc_properties` and all the properties inside it
 `etc/cdc_properties/Database.properties`
 
@@ -197,3 +196,4 @@ The folder `etc/cdc_properties` and all the properties inside it
  - Cannot connect to ODS or RDB: Ensure the correct credentials and ip are changed in the Database.properties, Connector.java and KafkaConsumerTest.java. Refer to the setup section for more details.
 
  - Compile errors: Check the compile strings in make_*.bat are pointing to the correct locations of the jar files.
+
