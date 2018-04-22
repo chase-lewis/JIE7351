@@ -157,12 +157,16 @@ AWS provides many compute instances, each with a different combination of CPU, m
 The files we changed in order to get kafka to run on windows:
 
 ### Batch files to start kafka, schema-registry and zookeeper, identical to confluent start command for unix
- - For staring all components at once:
+ - For starting all components at once:
+
 `bin/windows/start-all.bat`
 
  - For starting the componenets individually (must be run in this order):
+
 `bin/windows/start-zookeeper.bat`
+
 `bin/windows/start-kafka.bat`
+
 `bin/windows/start-schema.bat`
 
 
