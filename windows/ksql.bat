@@ -1,1 +1,0 @@
-ksql-run-class.bat ..\ksql-cli\src\main\java\io\confluent\ksql\Ksql
