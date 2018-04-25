@@ -4,22 +4,22 @@
  - **CDC (Centers for Disease Control and Prevention)**: The CDC is one of the primary operating components of the United States Department of Health and Human Services.
  - **ETL (Extract, Transform, Load)**: The process of extracting information from one database, transforming it into a new format, and loading it into another database.
  - **Health Partners**: The Centers for Disease Control and Prevention works with other health agencies and organizations in its effort to strengthen public health. These can include other government agencies, academic institutions, foundations, non-governmental institutions, faith-based organizations, and private entities.
- - **JDBC (Java Database Connectivity)**: Industry standard for database-independent connectivity between the Java programming language and a wide range of databases. 
+ - **JDBC (Java Database Connectivity)**: Industry standard for database-independent connectivity between the Java programming language and a wide range of databases.
  - **Kafka**: Apache Kafka is an open-source distributed streaming platform that is used for building real-time data pipelines and streaming applications.
  - **Kafka Cluster**: Kafka entity that stores streams of records in categories called topics. Kafka is run as a cluster on one or more servers.
  - **Kafka Producer**: Kafka entity that allows applications to send streams of data to topics in the Kafka cluster.
  - **Kafka Consumer**: Kafka entity that allows applications to read streams of data from topics in the Kafka Cluster.
  - **KSQL**: Confluent component that allows one to read, write, and process streaming data in real-time using SQL-like semantics.
  - **NEDSS (National Electronic Disease Surveillance System)**: NEDSS allows states and health partners to enter disease data into a database accessible to health investigators. It allows labs to upload reports to health partners, integrates multiple databases into a single integrated system, and allows partners to send and share information. The foundational data component of the NEDSS is called the NEDSS Base System (NBS).
- - **ODS (Operational Datastore)**: Database designed for transaction management amongst health partners and related health officials. Source for the ETL process. 
- - **SAS**: Software currently used for data storage, manipulation and analysis. Proprietary service we are tasked with replacing. 
+ - **ODS (Operational Datastore)**: Database designed for transaction management amongst health partners and related health officials. Source for the ETL process.
+ - **SAS**: Software currently used for data storage, manipulation and analysis. Proprietary service we are tasked with replacing.
  - **Schema Registry**: A component of Confluent Open Source that stores a versioned history of all schemas and allows for the changing of schemas based on previous versions.
- - **RDB (Reporting Database)**: Database designed for data analysis and reporting. Sink for the ETL process. 
+ - **RDB (Reporting Database)**: Database designed for data analysis and reporting. Sink for the ETL process.
 
 ## Project Introduction
 The Centers for Disease Control (CDC) and Prevention maintains an integrated information system called the National Electronic Disease Surveillance System (NEDSS). The NEDSS Base System allows states and health partners to enter disease data into a database that is accessible to health investigators. It allows labs to upload reports to health partners, integrates multiple databases into a single integrated system, and allows partners to send and share information. This system is used in twenty-three states nationwide.
 
-Currently, there is an Extract, Transform, and Load process implemented in the system that converts health partner data into a format that more closely resembles traditional public health databases. The current ETL process is implemented via SAS, a proprietary statistical analysis software for which the CDC must pay licensing fees within each state. Our task is to aid the CDC in researching, designing, and implementing a new ETL process using open source software that can be easily built upon and used for all data dimensions of the NBS. 
+Currently, there is an Extract, Transform, and Load process implemented in the system that converts health partner data into a format that more closely resembles traditional public health databases. The current ETL process is implemented via SAS, a proprietary statistical analysis software for which the CDC must pay licensing fees within each state. Our task is to aid the CDC in researching, designing, and implementing a new ETL process using open source software that can be easily built upon and used for all data dimensions of the NBS.
 
 By writing an ETL process for the CDC that can be used without payment or third party restrictions, we will free up both monetary resources and contractionary restrictions for the organization. Our research will entail looking for an open source product that can be used instead of writing our own ETL tool specific to the CDC. Although the scope of our project is initially limited to only one area of the Operational Datastore (ODS), our solution must be generalizable so that it can be implemented system-wide in the future. Our research and development process is guided by important requirements including implementation simplicity, user adaptability, and computational efficiency.
 
@@ -39,11 +39,11 @@ Consumers read messages. In other publish/subscribe systems, these clients may b
 Confluent serves as a bundler for all components required to run Kafka. Installation provides Zookeeper, which is used for storing metadata and coordinating clusters, Kafka itself, and a Schema Registry for managing the types of data being written to Kafka. It also provides bash scripts for running, managing, and shutting down each component. This repository includes versions of these scripts translated into Batch for Windows support.
 
 ### KSQL
-KSQL is a streaming SQL engine that enables stream processing against Apache Kafka. By ‘Streaming SQL Engine’ we mean that it can allow one to query, read, write, and process data in real-time and at scale using intuitive SQL-like syntax. It supports windowing, sessionization, joins, and aggregations. KSQL continuously queries on topics, hence it features a real time application for data analytics. It has several use cases including anomaly detection, data monitoring, and of course streaming ETL applications. KSQL makes it simple to transform data within a Kafka pipeline, readying messages to cleanly land in another system. 
+KSQL is a streaming SQL engine that enables stream processing against Apache Kafka. By ‘Streaming SQL Engine’ we mean that it can allow one to query, read, write, and process data in real-time and at scale using intuitive SQL-like syntax. It supports windowing, sessionization, joins, and aggregations. KSQL continuously queries on topics, hence it features a real time application for data analytics. It has several use cases including anomaly detection, data monitoring, and of course streaming ETL applications. KSQL makes it simple to transform data within a Kafka pipeline, readying messages to cleanly land in another system.
 
-To briefly touch on a few core concepts we will first discuss KSQL’s two primary components. Firstly, there is KSQL’s command line interface which is an interactive interface for writing KSQL queries on the client side. There is also, of course, the KSQL server which is the engine actually executing the KSQL queries. It includes data processing, as well as reading data from and writing data to the target Kafka Cluster. 
+To briefly touch on a few core concepts we will first discuss KSQL’s two primary components. Firstly, there is KSQL’s command line interface which is an interactive interface for writing KSQL queries on the client side. There is also, of course, the KSQL server which is the engine actually executing the KSQL queries. It includes data processing, as well as reading data from and writing data to the target Kafka Cluster.
 
-There are two key terms when discussing KSQL. A KSQL Stream is an unbounded sequence of structured data or ‘facts.’ Facts in a stream are completely immutable, which means new facts can be inserted to a stream, but existing facts can never be updated or deleted. Streams can be created from a Kafka topic or derived from an existing stream. A stream’s underlying data is durable stored within a Kafka topic on the Kafka brokers. A KSQL Table is a view of a stream, or another table, and represents a collection of evolving facts. It is the equivalent of a traditional database table but enriched by steaming semantics such as windowing. Facts are mutable (as compared to the streams immutable facts) which means new facts can be inserted to the table, and existing facts can be updated or deleted. Tables can be created from a Kafka topic or derived from existing streams and tables. Tables can be created from a Kafka topic or derived from existing streams and tables. In both cases, a table’s underlying data is durable stored within a Kafka topic on the Kafka brokers. 
+There are two key terms when discussing KSQL. A KSQL Stream is an unbounded sequence of structured data or ‘facts.’ Facts in a stream are completely immutable, which means new facts can be inserted to a stream, but existing facts can never be updated or deleted. Streams can be created from a Kafka topic or derived from an existing stream. A stream’s underlying data is durable stored within a Kafka topic on the Kafka brokers. A KSQL Table is a view of a stream, or another table, and represents a collection of evolving facts. It is the equivalent of a traditional database table but enriched by steaming semantics such as windowing. Facts are mutable (as compared to the streams immutable facts) which means new facts can be inserted to the table, and existing facts can be updated or deleted. Tables can be created from a Kafka topic or derived from existing streams and tables. Tables can be created from a Kafka topic or derived from existing streams and tables. In both cases, a table’s underlying data is durable stored within a Kafka topic on the Kafka brokers.
 
 ### Hardware Requirements
 
@@ -84,9 +84,9 @@ AWS provides many compute instances, each with a different combination of CPU, m
 
 ### Prerequisites and Dependencies
 
- - [Java 8 jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html){:target="_blank"}
- - [Microsoft SQL Server Management Studio connection setup](https://www.top-password.com/blog/how-to-enable-remote-connections-in-sql-server/){:target="_blank"}
- - [Enabling the right ports for remote connection](https://blogs.msdn.microsoft.com/walzenbach/2010/04/14/how-to-enable-remote-connections-in-sql-server-2008/){:target="_blank"}
+ - [Java 8 jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html target="_blank")
+ - [Microsoft SQL Server Management Studio connection setup](https://www.top-password.com/blog/how-to-enable-remote-connections-in-sql-server/ target="_blank")
+ - [Enabling the right ports for remote connection](https://blogs.msdn.microsoft.com/walzenbach/2010/04/14/how-to-enable-remote-connections-in-sql-server-2008/ target="_blank")
 
 ### Setup
 
@@ -177,38 +177,38 @@ The folder `etc/cdc_properties` and all the properties inside it
 #### The source files we created
  - The connector for connecting to the ms sql server:
 
-`src/Connector.java` 
+`src/Connector.java`
 
  - The customized consumer with transformation logic and configuration for writing to the RDB:
 
-`src/KafkaConsumerTest.java` 
+`src/KafkaConsumerTest.java`
 
  - The barebones producer, not currently used:
 
-`src/KafkaProducerTest.java` 
+`src/KafkaProducerTest.java`
 
  - The batch file that runs KafkaConsumerTest and includes all the required jar files to run the java:
 
-`src/make_consumer.bat` 
+`src/make_consumer.bat`
 
  - The batch file that runs KafkaProducerTest and includes all the required jar files:
 
-`src/make_producer.bat` 
+`src/make_producer.bat`
 
  - The batch file similar to the standalone_producer script in `/bin`. It runs kafka’s standalone producer, passing in the Database.properties file as the properties:
 
-`src/standalone_producer.bat` 
+`src/standalone_producer.bat`
 
  - The batch file to start ksql:
 
-`ksql/bin/windows/ksql-run-class.bat` 
+`ksql/bin/windows/ksql-run-class.bat`
 
 ### Troubleshooting
 
  - Kafka will not start: Verify that the system has a functioning installation of the Java 8 jdk.
- 
+
      - If any batch file closes without error, try running it through the command prompt instead of double clicking.
-     
+
      - If `bin/windows/start-all.bat` has any batch files close without error, try running `start-kafka.bat` `start-schema.bat` and `start-zookeeper.bat` individually through command prompt instead of double clicking.
 
      - Delete system `/tmp/zookeeper` and `/tmp/kafka-logs` files
