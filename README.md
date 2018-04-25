@@ -84,10 +84,9 @@ AWS provides many compute instances, each with a different combination of CPU, m
 
 ### Prerequisites and Dependencies
 
- - [Java 8 jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html target="_blank")
- - <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">Java 8 jdk</a>
- - [Microsoft SQL Server Management Studio connection setup](https://www.top-password.com/blog/how-to-enable-remote-connections-in-sql-server/ target="_blank")
- - [Enabling the right ports for remote connection](https://blogs.msdn.microsoft.com/walzenbach/2010/04/14/how-to-enable-remote-connections-in-sql-server-2008/ target="_blank")
+ - [Java 8 jdk](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+ - [Microsoft SQL Server Management Studio connection setup](https://www.top-password.com/blog/how-to-enable-remote-connections-in-sql-server/)
+ - [Enabling the right ports for remote connection](https://blogs.msdn.microsoft.com/walzenbach/2010/04/14/how-to-enable-remote-connections-in-sql-server-2008/)
 
 ### Setup
 
