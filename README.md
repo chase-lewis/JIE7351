@@ -114,21 +114,21 @@ AWS provides many compute instances, each with a different combination of CPU, m
 
 ```KafkaConsumerTest test = new KafkaConsumerTest(config, alist, "128.61.27.82");```
 
-#### Steps to configure on a new laptop
+#### Steps to configure on a new machine
 
-Make sure you have java 8 **JDK** or the producer / consumer will throw errors.
-
-There were edits made to `bin/windows/kafka-run-class.bat`, specifically after line 124
+Make sure you have java 8 **JDK** or the producer / consumer will throw errors. Make sure you are using 64 bit java or Kafka will likely have memory errors
 
 **Also make sure to run some sort of query on the studio server management on the database, or the consumer and producer will have trouble connecting to it**
 
 **Make sure to restart the computer after setting up the database configurations**
 
-##### The changes below were made because we wanted to use java8, but could not replace our old installation
+##### Refer to the notes below if you do not wish to have 64 bit Java 8 be your default java installation
 
-The javapath should be `set JAVA="%JAVA_HOME%/bin/java"`, but during installation, we replaced `%JAVA_HOME% with the actual path to the `java8jdk/bin` folder
+There were edits made to `bin/windows/kafka-run-class.bat`, specifically after line 124
 
-The javapath for `src/make_consumer.bat` was also changed, from `javac` and `java` to the respective classpath for the java8jdk
+Kafka's java path usage is set using `set JAVA="%JAVA_HOME%/bin/java"` by default. Replace %JAVA_HOME% with the path to your jdk 8 installation.
+
+The batch files `src/make_consumer.bat` and `src/make_producer.bat` were also changed. Replace java and javac with the paths to them in your jdk 8 installation.
 
 ### Running
 
@@ -232,4 +232,3 @@ The folder `etc/cdc_properties` and all the properties inside it
  - Cannot connect to ODS or RDB: Ensure the correct credentials and ip are changed in the Database.properties, Connector.java and KafkaConsumerTest.java. Refer to the setup section for more details.
 
  - Compile errors: Check the compile strings in make_*.bat are pointing to the correct locations of the jar files.
-
