@@ -126,6 +126,8 @@ The javapath for `src/make_consumer.bat` was also changed, from `javac` and `jav
 
 **Also make sure to run some sort of query on the studio server management on the database, or the consumer and producer will have trouble connecting to it**
 
+**Make sure to restart the computer after setting up the database configurations**
+
 ### Running
 
 #### Windows
