@@ -120,13 +120,15 @@ Make sure you have java 8 **JDK** or the producer / consumer will throw errors.
 
 There were edits made to `bin/windows/kafka-run-class.bat`, specifically after line 124
 
-The javapath should be `set JAVA="%JAVA_HOME%/bin/java"`, but during installation, we replaced `%JAVA_HOME% with the actual path to the `java8jdk/bin` folder
-
-The javapath for `src/make_consumer.bat` was also changed, from `javac` and `java` to the respective classpath for the java8jdk
-
 **Also make sure to run some sort of query on the studio server management on the database, or the consumer and producer will have trouble connecting to it**
 
 **Make sure to restart the computer after setting up the database configurations**
+
+##### The changes below were made because we wanted to use java8, but could not replace our old installation
+
+The javapath should be `set JAVA="%JAVA_HOME%/bin/java"`, but during installation, we replaced `%JAVA_HOME% with the actual path to the `java8jdk/bin` folder
+
+The javapath for `src/make_consumer.bat` was also changed, from `javac` and `java` to the respective classpath for the java8jdk
 
 ### Running
 
